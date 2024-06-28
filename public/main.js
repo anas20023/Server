@@ -33,9 +33,7 @@ document
       const response = await fetch("/winner-history");
       const history = await response.json();
 
-      const historyContainer = document.querySelector(
-        "#create_dv"
-      );
+      const historyContainer = document.querySelector("#create_dv");
       historyContainer.innerHTML = "";
 
       history.forEach((entry) => {
@@ -63,6 +61,38 @@ document
       alert("Failed to fetch winner history: " + error.message);
     }
   });
+///////////////////////////// Fetch History////////////////////////////
+///////////////////////////// Fetch Submits////////////////////////////
+// Fetch and display submission numbers
+// Fetch and display submission numbers
+async function fetchSubmissionNumbers() {
+  try {
+    const response = await fetch("/submission-numbers");
+    if (!response.ok) {
+      throw new Error("Failed to fetch submission numbers");
+    }
+    const numbers = await response.json();
+
+    const submissionsContainer = document.getElementById("submissions");
+    submissionsContainer.innerHTML = "";
+
+    numbers.forEach((submission) => {
+      const submissionElement = document.createElement("div");
+      submissionElement.classList.add("submission-number");
+      submissionElement.innerHTML = `
+        <div class="p-3 bg-blue-600 text-white text-center rounded-lg font-semibold">${submission.number}</div>
+      `;
+      submissionsContainer.appendChild(submissionElement);
+    });
+  } catch (error) {
+    console.error("Error fetching submission numbers:", error);
+    alert("Failed to fetch submission numbers: " + error.message);
+  }
+}
+
+// Call fetchSubmissionNumbers when the page loads
+document.addEventListener("DOMContentLoaded", fetchSubmissionNumbers);
+///////////////////////////// Fetch Submits////////////////////////////
 ///////////////////////////// Fetch History////////////////////////////
 //////////////////// Form Submit Event///////////////////////
 async function fetchEvents() {

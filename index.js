@@ -7,11 +7,11 @@ const WinnerHistory = require("./dbscm.js");
 require("dotenv").config();
 const app = express();
 // Connect to MongoDB
-mongoose 
+mongoose
   .connect(process.env.DBSTR, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
-    autoIndex: true, 
+    autoIndex: true,
   })
   .then(() => {
     console.log("Connected to MongoDB");
@@ -19,7 +19,7 @@ mongoose
   .catch((error) => {
     console.error("MongoDB connection error:", error);
     process.exit(1); // Exit process if unable to connect to MongoDB
-  }); 
+  });
 
 // Serve static files
 app.use(express.static(path.join(__dirname, "public")));
@@ -55,6 +55,18 @@ app.get("/winner-history", async (req, res) => {
     res.json(history);
   } catch (error) {
     res.status(500).json({ message: "Failed to fetch winner history", error });
+  }
+});
+
+app.get("/submission-numbers", async (req, res) => {
+  try {
+    const numbers = await Guess.find().select("number");
+    res.json(numbers);
+  } catch (error) {
+    console.error("Error fetching submission numbers:", error);
+    res
+      .status(500)
+      .json({ message: "Failed to fetch submission numbers", error });
   }
 });
 
