@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lucky Draw</title>
+    <link rel="stylesheet" href="./dist/output.css" />
+    <style>
+      .card,
+      .modal-content {
+        border: none;
+      }
+
+      .submission-number {
+        padding-left: 0.25rem;
+        padding-right: 0.25rem;
+      }
+    </style>
+  </head>
+
+  <body class="bg-gray-100" x-data="{ winnerModal: false }">
+    <!-- Header -->
+    <nav class="bg-gray-800 p-4 shadow-lg">
+      <div
+        class="container mx-auto flex justify-between items-center max-w-6xl">
+        <!-- Logo and Title -->
+        <a href="#" class="text-white text-2xl font-bold">Lucky Draw</a>
+
+        <!-- Navigation Links and Button (for large screens) -->
+        <div class="hidden lg:flex items-center space-x-4">
+          <!-- Home Link -->
+          <a
+            href="#"
+            class="text-gray-300 hover:text-white transition-colors duration-300"
+            >Home</a
+          >
+
+          <!-- Winner History Link -->
+          <a
+            href="#"
+            id="winnerModalshow"
+            class="text-gray-300 hover:text-white transition-colors duration-300"
+            >Winner History</a
+          >
+
+          <!-- Submit Button -->
+          <button
+            id="open-form"
+            class="bg-yellow-500 text-black py-2 px-4 rounded text-md hover:bg-yellow-600 transition-colors duration-300">
+            Submit
+          </button>
+        </div>
+
+        <!-- Responsive Navigation (for smaller screens) -->
+        <div id="responsive-nav" class="lg:hidden">
+          <button
+            id="toggle-menu"
+            class="text-gray-300 hover:text-white focus:outline-none">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-6 w-6"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor">
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M4 6h16M4 12h16m-7 6h7"></path>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Responsive Menu (hidden by default) -->
+      <div
+        id="responsive-menu"
+        class="hidden lg:hidden bg-gray-800 w-full py-4">
+        <div class="flex flex-col items-center space-y-4">
+          <!-- Home Link -->
+          <a
+            href="#"
+            class="text-gray-300 hover:text-white transition-colors duration-300"
+            >Home</a
+          >
+
+          <!-- Winner History Link -->
+          <a
+            href="#"
+            id="winnerModalshowResponsive"
+            class="text-gray-300 hover:text-white transition-colors duration-300"
+            >Winner History</a
+          >
+
+          <!-- Submit Button -->
+          <button
+            id="open-form"
+            class="bg-yellow-500 text-black py-2 px-4 rounded text-md hover:bg-yellow-600 transition-colors duration-300">
+            Submit
+          </button>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="container mx-auto mt-8 pb-12 max-w-6xl">
+      <!-- Lucky Draw Number -->
+      <div class="bg-white shadow-lg rounded-lg p-6 text-center mb-8">
+        <h2 class="text-3xl font-bold text-gray-800">Today's Result</h2>
+        <div
+          class="text-6xl text-blue-600 my-4 font-extrabold"
+          id="lucky-number">
+          123
+        </div>
+        <p class="mt-4">
+          <span class="bg-green-500 text-white py-2 px-4 rounded-full text-lg"
+            >Prize: USD 100</span
+          >
+        </p>
+        <p class="mt-4 text-gray-500">Next draw at 12 AM</p>
+      </div>
+
+      <!-- User Submissions -->
+      <div class="bg-white shadow-lg rounded-lg p-6 mb-8">
+        <h2 class="text-3xl font-bold text-center text-gray-800">
+          User Submissions
+        </h2>
+        <div
+          class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4 mt-6"
+          id="submissions">
+          <!-- Example submission -->
+          <div class="submission-number">
+            <div
+              class="p-3 bg-blue-600 text-white text-center rounded-lg font-semibold">
+              123
+            </div>
+          </div>
+          <div class="submission-number">
+            <div
+              class="p-3 bg-blue-600 text-white text-center rounded-lg font-semibold">
+              456
+            </div>
+          </div>
+          <div class="submission-number">
+            <div
+              class="p-3 bg-blue-600 text-white text-center rounded-lg font-semibold">
+              789
+            </div>
+          </div>
+          <div class="submission-number">
+            <div
+              class="p-3 bg-blue-600 text-white text-center rounded-lg font-semibold">
+              234
+            </div>
+          </div>
+          <!-- More submissions will be loaded here -->
+        </div>
+        <div class="text-center mt-6">
+          <button
+            id="load-more"
+            class="bg-blue-600 text-white py-2 px-6 rounded-full text-lg hover:bg-blue-700 transition-colors duration-300">
+            Load More
+          </button>
+        </div>
+      </div>
+
+      <!-- Advertising Column -->
+      <div class="bg-white shadow-lg rounded-lg p-6 mb-8">
+        <h2 class="text-3xl font-bold text-center text-gray-800">
+          Register your brand here
+        </h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-6">
+          <div>
+            <img
+              src="https://placehold.co/600x400"
+              alt="Ad 1"
+              class="rounded-lg shadow-md" />
+          </div>
+          <div>
+            <img
+              src="https://placehold.co/600x400"
+              alt="Ad 2"
+              class="rounded-lg shadow-md" />
+          </div>
+          <div>
+            <img
+              src="https://placehold.co/600x400"
+              alt="Ad 3"
+              class="rounded-lg shadow-md" />
+          </div>
+          <div>
+            <img
+              src="https://placehold.co/600x400"
+              alt="Ad 4"
+              class="rounded-lg shadow-md" />
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Bottom Bar with Button -->
+    <footer class="bg-gray-800 text-white py-8 mt-auto">
+      <div class="container mx-auto text-center">
+        <p>&copy; 2024 Lucky Draw. All rights reserved.</p>
+      </div>
+    </footer>
+
+    <!-- Form Modal -->
+    <div class="fixed z-10 inset-0 overflow-y-auto hidden" id="formModal">
+      <div
+        class="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+        <div class="fixed inset-0 transition-opacity" aria-hidden="true">
+          <div class="absolute inset-0 bg-gray-800 opacity-75"></div>
+        </div>
+        <span
+          class="hidden sm:inline-block sm:align-middle sm:h-screen"
+          aria-hidden="true"
+          >&#8203;</span
+        >
+        <div
+          class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
+          <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+            <div class="sm:flex sm:items-start items-center">
+              <div class="w-full">
+                <h3
+                  class="text-lg leading-6 font-medium text-gray-900 text-center"
+                  id="formModalLabel">
+                  Submit Your Guess
+                </h3>
+                <div class="mt-4">
+                  <form method="post" id="guess-form">
+                    <div class="mb-4">
+                      <label for="number" class="block text-gray-700"
+                        >Your Guess (3 digits):</label
+                      >
+                      <input
+                        type="text"
+                        id="number"
+                        name="number"
+                        maxlength="3"
+                        class="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                        placeholder="Enter your guess" />
+                    </div>
+                    <div class="mb-4">
+                      <label for="brand" class="block text-gray-700"
+                        >Brand:</label
+                      >
+                      <input
+                        type="text"
+                        id="brand"
+                        name="brand"
+                        class="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                        placeholder="Enter the brand" />
+                    </div>
+                    <div class="mb-4">
+                      <label for="username" class="block text-gray-700"
+                        >Username:</label
+                      >
+                      <input
+                        type="text"
+                        id="username"
+                        name="username"
+                        class="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                        placeholder="Enter your username" />
+                    </div>
+                    <div class="flex justify-between items-center">
+                      <button
+                        type="submit"
+                        class="w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:w-auto sm:text-sm">
+                        Submit
+                      </button>
+                      <button
+                        type="button"
+                        id="closebtn"
+                        class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:w-auto sm:text-sm">
+                        Close
+                      </button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Winner Modal -->
+    <div class="fixed z-10 inset-0 overflow-y-auto hidden" id="winnerModal">
+      <div
+        class="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+        <div class="fixed inset-0 transition-opacity" aria-hidden="true">
+          <div class="absolute inset-0 bg-gray-800 opacity-75"></div>
+        </div>
+        <span
+          class="hidden sm:inline-block sm:align-middle sm:h-screen"
+          aria-hidden="true"
+          >&#8203;</span
+        >
+        <div
+          class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-4xl sm:w-full border border-gray-300">
+          <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+            <div class="sm:flex sm:items-start items-center">
+              <div class="w-full">
+                <h3
+                  class="text-lg leading-6 font-medium text-gray-900 text-center sm:text-left"
+                  id="winnerModalLabel">
+                  Winner History
+                </h3>
+                <div id="create_dv" class="mt-4 space-y-4">
+                  <!-- Data will Aprear HERE -->
+
+                  <!-- Data will Aprear HERE -->
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+            <button
+              type="button"
+              id="modclose"
+              class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
+              data-dismiss="modal">
+              Close
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="./main.js"></script>
+    <script src="./fe.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  </body>
+</html>
