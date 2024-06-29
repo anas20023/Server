@@ -18,7 +18,9 @@
     </style>
   </head>
 
-  <body class="bg-gray-100" x-data="{ winnerModal: false }">
+  <body
+    class="bg-gray-100 flex flex-col min-h-screen"
+    x-data="{ winnerModal: false }">
     <!-- Header -->
     <nav class="bg-gray-800 p-4 shadow-lg">
       <div
@@ -34,7 +36,6 @@
             class="text-gray-300 hover:text-white transition-colors duration-300"
             >Home</a
           >
-
           <!-- Winner History Link -->
           <a
             href="#"
@@ -76,7 +77,6 @@
             class="text-gray-300 hover:text-white transition-colors duration-300"
             >Home</a
           >
-
           <!-- Winner History Link -->
           <a
             href="#"
@@ -89,7 +89,7 @@
     </nav>
 
     <!-- Main Content -->
-    <main class="container mx-auto mt-8 pb-12 max-w-6xl">
+    <main class="container mx-auto mt-8 pb-12 max-w-6xl flex-grow">
       <!-- Lucky Draw Number -->
       <div class="bg-white shadow-lg rounded-lg p-6 text-center mb-8">
         <h2 class="text-3xl font-bold text-gray-800">Previous Result</h2>
@@ -153,20 +153,15 @@
     </main>
 
     <!-- Bottom Bar with Button -->
-    <footer class="bg-gray-800 text-white py-8 mt-auto">
+    <div class="bg-gray-800 text-white py-8 w-full sticky bottom-0">
       <div
-        class="container flex flex-row justify-center items-center text-center footer-content">
+        class="container flex flex-row justify-center items-center text-center">
         <!-- Button for Navigate to Event Detail Page -->
         <a
           href="./winner-history.html"
-          class="bg-white mx-2 hover:bg-yellow-600 text-black py-2 px-4 rounded-md text-md transition duration-300">
-          Winner History
-        </a>
-        <a
-          href="./event-detail.html"
-          class="bg-white mx-2 hover:bg-yellow-600 text-black py-2 px-4 rounded-md text-md transition duration-300">
-          Event Detail
-        </a>
+          class="bg-white mx-2 hover:bg-yellow-600 text-black py-2 px-4 rounded-md text-md transition duration-300"
+          >Winner History</a
+        >
         <!-- Submit Button -->
         <button
           id="open-form"
@@ -177,11 +172,10 @@
         <div
           id="timer-container"
           class="hidden bg-yellow-500 mx-2 max-w-16 hover:bg-yellow-600 text-black py-2 px-4 rounded-md text-md transition duration-300">
-          Next Submit :
-          <span id="timer">5:00</span>
+          Next Submit : <span id="timer">5:00</span>
         </div>
       </div>
-    </footer>
+    </div>
 
     <!-- Form Modal -->
     <div class="fixed z-10 inset-0 overflow-y-auto hidden" id="formModal">
@@ -286,9 +280,7 @@
                   Winner History
                 </h3>
                 <div id="create_dv" class="mt-4 space-y-4">
-                  <!-- Data will Aprear HERE -->
-
-                  <!-- Data will Aprear HERE -->
+                  <!-- Data will Appear HERE -->
                 </div>
               </div>
             </div>

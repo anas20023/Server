@@ -4,6 +4,7 @@ const bodyParser = require("body-parser");
 const path = require("path");
 const WinnerHistory = require("./dbscm.js");
 const Event = require("./models/Event.js");
+const collectionName = 'winnerhistories';
 
 // Load environment variables
 require("dotenv").config();
@@ -111,11 +112,3 @@ app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
 
-async function getEventDetailsFromDatabase(eventId) {
-  try {
-    const event = await Event.findById(eventId);
-    return event;
-  } catch (error) {
-    throw new Error(`Error fetching event from database: ${error.message}`);
-  }
-}

@@ -18,65 +18,30 @@
   <body class="bg-gray-100 flex flex-col min-h-screen">
     <!-- Header -->
     <nav class="bg-gray-800 p-4">
-      <div class="container mx-auto flex justify-between items-center">
+      <div
+        class="container mx-auto flex justify-between items-center max-w-6xl">
         <a class="text-white text-xl font-bold" href="./index.html"
           >Lucky Draw</a
         >
         <div class="space-x-4">
           <a class="text-gray-300 hover:text-white" href="./index.html">Home</a>
+          <a
+            href="./event-detail.html"
+            class="bg-white mx-2 hover:bg-yellow-600 text-black py-2 px-4 rounded-md text-md transition duration-300"
+            >Event Detail</a
+          >
         </div>
       </div>
     </nav>
 
     <!-- Main Content -->
     <main
-      class="container mx-auto mt-8 px-4 flex-grow min-h-screen-with-footer">
+      class="container mx-auto mt-8 px-4 flex-grow min-h-screen-with-footer max-w-6xl">
       <h2 class="text-center text-3xl font-semibold text-gray-800 mb-6">
         Winner History
       </h2>
-      <div class="grid grid-cols-1 gap-4">
-        <!-- Example Row with a Winner -->
-        <div
-          class="history-item bg-white rounded-lg shadow p-4 border-l-4 border-blue-500">
-          <a
-            href="event-detail.html"
-            class="text-lg font-medium text-gray-700 hover:text-gray-900"
-            ><span>Date: 2024-06-28</span></a
-          >
-          <div class="flex justify-between mt-2 text-blue-600">
-            <span>Winning Number: 123</span>
-            <span>Winner: user123</span>
-          </div>
-        </div>
-        <!-- Example Row with Multiple Winners -->
-        <div
-          class="history-item bg-white rounded-lg shadow p-4 border-l-4 border-blue-500">
-          <a
-            href="event-detail.html"
-            class="text-lg font-medium text-gray-700 hover:text-gray-900"
-            ><span>Date: 2024-06-27</span></a
-          >
-          <div class="flex justify-between mt-2 text-blue-600">
-            <span>Winning Number: 456</span>
-            <span>Winners: user456, user789</span>
-          </div>
-        </div>
-        <!-- Example Row with No Winner -->
-        <div
-          class="history-item bg-white rounded-lg shadow p-4 border-l-4 border-blue-500">
-          <a
-            href="event-detail.html"
-            class="text-lg font-medium text-gray-700 hover:text-gray-900"
-            ><span>Date: 2024-06-26</span></a
-          >
-          <div class="flex justify-between mt-2 text-blue-600">
-            <span>Winning Number: 789</span>
-            <span class="bg-gray-500 text-white py-1 px-3 rounded-full"
-              >No winner</span
-            >
-          </div>
-        </div>
-        <!-- Repeat similar rows for each winner -->
+      <div class="grid grid-cols-1 gap-4" id="winnerHistoriesContainer">
+        <!-- Winner histories will be dynamically inserted here -->
       </div>
     </main>
 
@@ -88,20 +53,6 @@
     </footer>
 
     <!-- Scripts -->
-    <script>
-      // Toggle navigation overlay for small screens
-      document
-        .getElementById("navToggleBtn")
-        .addEventListener("click", function () {
-          document.getElementById("navOverlay").classList.toggle("hidden");
-        });
-
-      // Close navigation overlay
-      document
-        .getElementById("closeNavBtn")
-        .addEventListener("click", function () {
-          document.getElementById("navOverlay").classList.add("hidden");
-        });
-    </script>
+     <script src="./winner.js"></script>
   </body>
 </html>
