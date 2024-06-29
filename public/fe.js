@@ -35,20 +35,7 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
   // Handle loading more submissions
-  document.getElementById("load-more").addEventListener("click", function () {
-    const submissions = document.getElementById("submissions");
-    for (let i = 0; i < 12; i++) {
-      const div = document.createElement("div");
-      div.className = "submission-number";
-      div.innerHTML =
-        '<div class="p-3 bg-blue-600 text-white text-center rounded-lg font-semibold">' +
-        Math.floor(Math.random() * 1000)
-          .toString()
-          .padStart(3, "0") +
-        "</div>";
-      submissions.appendChild(div);
-    }
-  });
+
 
   // Handle toggle for responsive menu
   const toggleButton = document.getElementById("toggle-menu");
@@ -93,4 +80,66 @@ document.addEventListener("DOMContentLoaded", function () {
   closebtn.addEventListener("click", function () {
     document.getElementById("formModal").classList.add("hidden");
   });
+});
+document.addEventListener("DOMContentLoaded", function () {
+  // Function to calculate and display the countdown
+  function updateNextDrawTime() {
+    const now = new Date();
+    let nextDrawTime = new Date();
+    nextDrawTime.setHours(24, 0, 0, 0); // Set next draw time to 12 AM
+
+    if (nextDrawTime <= now) {
+      nextDrawTime.setDate(nextDrawTime.getDate() + 1); // Next draw is tomorrow if already past 12 AM today
+    }
+
+    // Calculate the time difference in milliseconds
+    let timeUntilNextDraw = nextDrawTime - now;
+
+    // Update countdown every second
+    const countdownElement = document.getElementById("cnt_dwn");
+    const luckyNumberElement = document.getElementById("lucky-number");
+
+    const intervalId = setInterval(() => {
+      const hours = Math.floor(
+        (timeUntilNextDraw % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+      );
+      const minutes = Math.floor(
+        (timeUntilNextDraw % (1000 * 60 * 60)) / (1000 * 60)
+      );
+      const seconds = Math.floor((timeUntilNextDraw % (1000 * 60)) / 1000);
+
+      countdownElement.textContent = `Next draw in ${hours}h ${minutes}m ${seconds}s`;
+
+      // Check if countdown has reached zero
+      if (timeUntilNextDraw <= 0) {
+        clearInterval(intervalId); // Stop the interval
+
+        // Fetch new lucky number from backend
+        fetch("/current-lucky-number")
+          .then((response) => response.json())
+          .then((data) => {
+            const newNumber = data.number; // Assuming API returns { number: 'xxx' }
+            luckyNumberElement.textContent = newNumber;
+
+            // Calculate new next draw time for the next day
+            nextDrawTime = new Date();
+            nextDrawTime.setDate(nextDrawTime.getDate() + 1);
+            nextDrawTime.setHours(12, 0, 0, 0);
+
+            // Restart countdown for the new draw
+            timeUntilNextDraw = nextDrawTime - now;
+            updateNextDrawTime(); // Restart countdown
+          })
+          .catch((error) => {
+            console.error("Error fetching new lucky number:", error);
+          });
+      }
+
+      // Decrease time until next draw every second
+      timeUntilNextDraw -= 1000;
+    }, 1000);
+  }
+
+  // Call the function to initialize the countdown timer
+  updateNextDrawTime();
 });

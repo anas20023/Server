@@ -42,13 +42,6 @@
             class="text-gray-300 hover:text-white transition-colors duration-300"
             >Winner History</a
           >
-
-          <!-- Submit Button -->
-          <button
-            id="open-form"
-            class="bg-yellow-500 text-black py-2 px-4 rounded text-md hover:bg-yellow-600 transition-colors duration-300">
-            Submit
-          </button>
         </div>
 
         <!-- Responsive Navigation (for smaller screens) -->
@@ -91,13 +84,6 @@
             class="text-gray-300 hover:text-white transition-colors duration-300"
             >Winner History</a
           >
-
-          <!-- Submit Button -->
-          <button
-            id="open-form"
-            class="bg-yellow-500 text-black py-2 px-4 rounded text-md hover:bg-yellow-600 transition-colors duration-300">
-            Submit
-          </button>
         </div>
       </div>
     </nav>
@@ -106,7 +92,7 @@
     <main class="container mx-auto mt-8 pb-12 max-w-6xl">
       <!-- Lucky Draw Number -->
       <div class="bg-white shadow-lg rounded-lg p-6 text-center mb-8">
-        <h2 class="text-3xl font-bold text-gray-800">Today's Result</h2>
+        <h2 class="text-3xl font-bold text-gray-800">Previous Result</h2>
         <div
           class="text-6xl text-blue-600 my-4 font-extrabold"
           id="lucky-number"></div>
@@ -115,7 +101,8 @@
             >Prize: USD 100</span
           >
         </p>
-        <p class="mt-4 text-gray-500">Next draw at 12 AM</p>
+        <p class="mt-4 text-gray-400 font-semibold text-sm">Event ID : 1234</p>
+        <p id="cnt_dwn" class="mt-2 text-gray-500 font-bold text-base"></p>
       </div>
 
       <!-- User Submissions -->
@@ -127,38 +114,7 @@
           class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4 mt-6"
           id="submissions">
           <!-- Example submission -->
-          <div class="submission-number">
-            <div
-              class="p-3 bg-blue-600 text-white text-center rounded-lg font-semibold">
-              123
-            </div>
-          </div>
-          <div class="submission-number">
-            <div
-              class="p-3 bg-blue-600 text-white text-center rounded-lg font-semibold">
-              456
-            </div>
-          </div>
-          <div class="submission-number">
-            <div
-              class="p-3 bg-blue-600 text-white text-center rounded-lg font-semibold">
-              789
-            </div>
-          </div>
-          <div class="submission-number">
-            <div
-              class="p-3 bg-blue-600 text-white text-center rounded-lg font-semibold">
-              234
-            </div>
-          </div>
           <!-- More submissions will be loaded here -->
-        </div>
-        <div class="text-center mt-6">
-          <button
-            id="load-more"
-            class="bg-blue-600 text-white py-2 px-6 rounded-full text-lg hover:bg-blue-700 transition-colors duration-300">
-            Load More
-          </button>
         </div>
       </div>
 
@@ -197,9 +153,26 @@
     </main>
 
     <!-- Bottom Bar with Button -->
-    <footer class="bg-gray-800 text-white py-8 mt-auto">
+    <footer
+      class="bg-gray-800 text-white py-8 mt-auto flex flex-col lg:flex-row justify-center items-center">
       <div class="container mx-auto text-center">
-        <p>&copy; 2024 Lucky Draw. All rights reserved.</p>
+        <!-- Button for Navigate to Event Detail Page -->
+        <a
+          href="./winner-history.html"
+          class="bg-white mx-2 hover:bg-yellow-600 text-black py-2 px-4 rounded-md text-md transition duration-300">
+          Winner History
+        </a>
+        <a
+          href="./event-detail.html"
+          class="bg-white mx-2 hover:bg-yellow-600 text-black py-2 px-4 rounded-md text-md transition duration-300">
+          Event Detail
+        </a>
+        <!-- Submit Button -->
+        <button
+          id="open-form"
+          class="bg-yellow-500 mx-2 hover:bg-yellow-600 text-black py-2 px-4 rounded-md text-md transition duration-300">
+          Submit Guess
+        </button>
       </div>
     </footer>
 

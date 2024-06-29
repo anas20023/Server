@@ -1,165 +1,152 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Past Event Detail</title>
-    <link
-      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
-      rel="stylesheet" />
-    <!-- jQuery -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <!-- Bootstrap JS (only needed for the toggler) -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <style>
-      /* Custom styles */
-      html,
-      body {
-        height: 100%;
-      }
-      .wrapper {
-        display: flex;
-        flex-direction: column;
-        min-height: 100vh;
-      }
-      main {
-        flex: 1;
-      }
-    </style>
-  </head>
-  <body class="bg-gray-100">
-    <div class="wrapper">
-      <!-- Header -->
-      <nav class="bg-gray-800">
-        <div class="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
-          <div class="relative flex items-center justify-between h-16">
-            <div class="absolute inset-y-0 left-0 flex items-center sm:hidden">
-              <!-- Mobile menu button -->
-              <button
-                id="mobile-menu-button"
-                class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
-                aria-expanded="false">
-                <!-- Icon when menu is closed. -->
-                <!-- Menu open: "hidden", Menu closed: "block" -->
-                <svg
-                  class="block h-6 w-6"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  aria-hidden="true">
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M4 6h16M4 12h16m-7 6h7"></path>
-                </svg>
-                <!-- Icon when menu is open. -->
-                <!-- Menu open: "block", Menu closed: "hidden" -->
-                <svg
-                  class="hidden h-6 w-6"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  aria-hidden="true">
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M6 18L18 6M6 6l12 12"></path>
-                </svg>
-              </button>
-            </div>
-            <div
-              class="flex-1 flex items-center justify-center sm:items-stretch sm:justify-start">
-              <div class="flex-shrink-0">
-                <a href="#" class="text-white text-xl font-bold">Lucky Draw</a>
-              </div>
-              <div class="hidden sm:block sm:ml-6">
-                <div class="flex space-x-4">
-                  <a
-                    href="index.html"
-                    class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
-                    >Home</a
-                  >
-                  <a
-                    href="history.html"
-                    class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
-                    >History</a
-                  >
-                </div>
-              </div>
-            </div>
-          </div>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Past Event Detail</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <style>
+    /* Custom styles */
+    html,
+    body {
+      height: 100%;
+    }
+    .wrapper {
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+    main {
+      flex: 1;
+    }
+  </style>
+</head>
+<body class="bg-gray-100">
+<div class="wrapper">
+  <!-- Header -->
+  <nav class="bg-gray-800">
+    <div class="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
+      <div class="relative flex items-center justify-between h-16">
+        <div class="absolute inset-y-0 left-0 flex items-center sm:hidden">
+          <!-- Mobile menu button -->
+          <button
+            id="toggle-menu"
+            class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
+            aria-expanded="false"
+          >
+            <!-- Icon when menu is closed -->
+            <!-- Menu open: "hidden", Menu closed: "block" -->
+            <svg
+              class="block h-6 w-6"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              aria-hidden="true"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M4 6h16M4 12h16m-7 6h7"
+              ></path>
+            </svg>
+            <!-- Icon when menu is open -->
+            <!-- Menu open: "block", Menu closed: "hidden" -->
+            <svg
+              class="hidden h-6 w-6"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              aria-hidden="true"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M6 18L18 6M6 6l12 12"
+              ></path>
+            </svg>
+          </button>
         </div>
-
-        <!-- Mobile menu, toggle classes based on menu state. -->
         <div
-          id="mobile-menu"
-          class="sm:hidden bg-gray-800 absolute inset-x-0 top-16 transition transform origin-top-right">
-          <div class="px-2 pt-2 pb-3 space-y-1">
-            <a
-              href="index.html"
-              class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
-              >Home</a
-            >
-            <a
-              href="history.html"
-              class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
-              >History</a
-            >
+          class="flex-1 flex items-center justify-center sm:items-stretch sm:justify-start"
+        >
+          <div class="flex-shrink-0">
+            <a href="#" class="text-white text-xl font-bold">Lucky Draw</a>
+          </div>
+          <div class="hidden sm:block sm:ml-6">
+            <div class="flex space-x-4">
+              <a
+                href="index.html"
+                class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+                >Home</a
+              >
+              <a
+                href="winner-history.html"
+                class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+                >History</a
+              >
+            </div>
           </div>
         </div>
-      </nav>
-      <!-- Main Content -->
-      <main class="container mx-auto mt-4 flex-1 px-4">
-        <h2 class="text-center text-3xl font-bold mb-4">Event Details</h2>
-
-        <!-- Event Details Card -->
-        <div class="bg-white shadow-md rounded-lg p-6 mb-4">
-          <h4 class="text-xl font-bold mb-2">Event Date: 2024-06-28</h4>
-          <p><strong>Winning Number:</strong> 123</p>
-          <p><strong>Winner:</strong> user123</p>
-          <p><strong>Prize:</strong> USD 100</p>
-          <p class="mt-2">
-            <strong>Description:</strong> This event was held to celebrate our
-            monthly lucky draw. The winning number was randomly selected from
-            all entries.
-          </p>
-        </div>
-
-        <!-- User Submissions -->
-        <div class="bg-white shadow-md rounded-lg p-6 mb-4">
-          <h4 class="text-xl font-bold mb-2">User Submissions</h4>
-          <div class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-8 gap-4">
-            <div class="text-center p-2 bg-blue-200 rounded">123</div>
-            <div class="text-center p-2 bg-blue-200 rounded">456</div>
-            <div class="text-center p-2 bg-blue-200 rounded">789</div>
-            <div class="text-center p-2 bg-blue-200 rounded">234</div>
-            <!-- More submissions can be added here -->
-          </div>
-        </div>
-      </main>
-
-      <!-- Footer -->
-      <footer class="bg-gray-800 text-white py-8 mt-auto">
-        <div class="container mx-auto text-center">
-          <p>&copy; 2024 Lucky Draw. All rights reserved.</p>
-        </div>
-      </footer>
+      </div>
     </div>
 
-    <!-- Scripts -->
-    <script>
-      $(document).ready(function () {
-        $("#mobile-menu-button").click(function () {
-          $("#mobile-menu").toggleClass("hidden");
-        });
-      });
-    </script>
-    <script
-      src="https://cdn.jsdelivr.net/npm/alpinejs@3.7.2/dist/alpine.min.js"
-      defer></script>
-  </body>
+    <!-- Mobile menu -->
+    <div
+      id="responsive-menu"
+      class="sm:hidden bg-gray-800 absolute inset-x-0 top-16 transition transform origin-top-right hidden"
+    >
+      <div class="px-2 pt-2 pb-3 space-y-1">
+        <a
+          href="index.html"
+          class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
+          >Home</a
+        >
+        <a
+          href="history.html"
+          class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
+          >History</a
+        >
+      </div>
+    </div>
+  </nav>
+  <!-- Main Content -->
+  <main class="container mx-auto mt-4 flex-1 px-4">
+    <h2  class="text-center text-3xl font-bold mb-4">Event Details</h2>
+
+    <!-- Event Details Card -->
+    <div class="bg-white shadow-md rounded-lg p-6 mb-4">
+      <h4 id="event-date" class="text-xl font-bold mb-2">Event Date:</h4>
+      <p id="winning-number"><strong>Winning Number:</strong></p>
+      <p id="winner"><strong>Winner:</strong></p>
+      <p id="prize"><strong>Prize:</strong></p>
+      <p id="event-id"><strong>Event ID:</strong></p>
+      <p id="description" class="mt-2"><strong>Description:</strong></p>
+    </div>
+
+    <!-- User Submissions -->
+    <div class="bg-white shadow-md rounded-lg p-6 mb-4">
+      <h4 class="text-xl font-bold mb-2">User Submissions</h4>
+      <div id="user-submissions" class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-8 gap-4">
+        <!-- User submissions will be dynamically added here -->
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-gray-800 text-white py-8 mt-auto">
+    <div class="container mx-auto text-center">
+      <p>&copy; 2024 Lucky Draw. All rights reserved.</p>
+    </div>
+  </footer>
+</div>
+
+<!-- Scripts -->
+ <script src="./eventHandle.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/alpinejs@3.7.2/dist/alpine.min.js" defer></script>
+</body>
 </html>

@@ -95,10 +95,4 @@ document.addEventListener("DOMContentLoaded", fetchSubmissionNumbers);
 ///////////////////////////// Fetch Submits////////////////////////////
 ///////////////////////////// Fetch History////////////////////////////
 //////////////////// Form Submit Event///////////////////////
-async function fetchEvents() {
-  const response = await fetch("http://localhost:5000/events");
-  const events = await response.json();
-  console.log(events);
-}
 
-//fetchEvents();
