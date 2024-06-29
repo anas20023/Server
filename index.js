@@ -49,7 +49,7 @@ app.post("/submit-guess", async (req, res) => {
     res.status(400).json({ error: "Error submitting guess" });
   }
 });
-
+ 
 // Route to fetch winner history
 app.get("/winner-history", async (req, res) => {
   try {
