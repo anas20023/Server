@@ -32,18 +32,11 @@ document
     try {
       const response = await fetch("/winner-history");
       const history = await response.json();
-      //console.log(history);
+
       const historyContainer = document.querySelector("#create_dv");
       historyContainer.innerHTML = "";
 
       history.forEach((entry) => {
-        let usrnm = entry.users;
-        usrnm.toString();
-        // logic for modify the username. ex : user123 to u****23 must show some first and last letters
-        let newUsrnm =
-          usrnm.substring(0, 1) +
-          "***" +
-          usrnm.substring(usrnm.length - 2, usrnm.length);
         const entryElement = document.createElement("div");
         entryElement.classList.add(
           "flex",
@@ -58,7 +51,7 @@ document
         entryElement.innerHTML = `
         <span class="font-semibold">Date: ${entry.date}</span>
         <span class="font-semibold">Winning Number: ${entry.number}</span>
-        <span class="font-semibold">Winner: ${newUsrnm}</span>
+        <span class="font-semibold">Winner: ${entry.users}</span>
       `;
         historyContainer.appendChild(entryElement);
       });

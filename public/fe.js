@@ -56,21 +56,14 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Handle winner modal
   const modalshow = document.querySelector("#winnerModalshow");
-  const modalshowResponsive = document.querySelector(
-    "#winnerModalshowResponsive"
-  );
   const modalclose = document.querySelector("#modclose");
 
   modalshow.addEventListener("click", function () {
     document.getElementById("winnerModal").classList.remove("hidden");
   });
 
-  modalshowResponsive.addEventListener("click", function () {
-    document.getElementById("winnerModal").classList.remove("hidden");
-    responsiveMenu.classList.add("hidden"); // Close responsive menu on modal open
-  });
-
   modalclose.addEventListener("click", function () {
+    //console.log(e);
     document.getElementById("winnerModal").classList.add("hidden");
   });
 
@@ -80,6 +73,7 @@ document.addEventListener("DOMContentLoaded", function () {
     document.getElementById("formModal").classList.add("hidden");
   });
 });
+////////////////////////////////////////////////////////////////////
 document.addEventListener("DOMContentLoaded", function () {
   // Function to calculate and display the countdown
   function updateNextDrawTime() {
