@@ -153,9 +153,9 @@
     </main>
 
     <!-- Bottom Bar with Button -->
-    <footer
-      class="bg-gray-800 text-white py-8 mt-auto flex flex-col lg:flex-row justify-center items-center">
-      <div class="container mx-auto text-center">
+    <footer class="bg-gray-800 text-white py-8 mt-auto">
+      <div
+        class="container flex flex-row justify-center items-center text-center footer-content">
         <!-- Button for Navigate to Event Detail Page -->
         <a
           href="./winner-history.html"
@@ -173,6 +173,13 @@
           class="bg-yellow-500 mx-2 hover:bg-yellow-600 text-black py-2 px-4 rounded-md text-md transition duration-300">
           Submit Guess
         </button>
+        <!-- Timer Container -->
+        <div
+          id="timer-container"
+          class="hidden bg-yellow-500 mx-2 max-w-16 hover:bg-yellow-600 text-black py-2 px-4 rounded-md text-md transition duration-300">
+          Next Submit :
+          <span id="timer">5:00</span>
+        </div>
       </div>
     </footer>
 
@@ -302,6 +309,7 @@
     <!-- Scripts -->
     <script src="./main.js"></script>
     <script src="./fe.js"></script>
+    <script src="./timer.js"></script>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>

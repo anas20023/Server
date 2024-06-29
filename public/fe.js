@@ -36,7 +36,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Handle loading more submissions
 
-
   // Handle toggle for responsive menu
   const toggleButton = document.getElementById("toggle-menu");
   const responsiveMenu = document.getElementById("responsive-menu");
@@ -143,3 +142,6 @@ document.addEventListener("DOMContentLoaded", function () {
   // Call the function to initialize the countdown timer
   updateNextDrawTime();
 });
+///////////Button Control button will apear after 5mins and desapir and a time counter will added ////////////////
+// set a count down div when btn in hidden for interval time
+///////////Button Control////////////////
