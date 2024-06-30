@@ -913,6 +913,11 @@ video {
   background-color: rgb(191 219 254 / var(--tw-bg-opacity));
 }
 
+.bg-blue-500 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(59 130 246 / var(--tw-bg-opacity));
+}
+
 .bg-blue-600 {
   --tw-bg-opacity: 1;
   background-color: rgb(37 99 235 / var(--tw-bg-opacity));
@@ -948,11 +953,6 @@ video {
   background-color: rgb(234 179 8 / var(--tw-bg-opacity));
 }
 
-.bg-blue-500 {
-  --tw-bg-opacity: 1;
-  background-color: rgb(59 130 246 / var(--tw-bg-opacity));
-}
-
 .p-2 {
   padding: 0.5rem;
 }
@@ -984,6 +984,11 @@ video {
   padding-right: 1rem;
 }
 
+.py-1 {
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem;
+}
+
 .py-2 {
   padding-top: 0.5rem;
   padding-bottom: 0.5rem;
@@ -1007,11 +1012,6 @@ video {
 .py-8 {
   padding-top: 2rem;
   padding-bottom: 2rem;
-}
-
-.py-1 {
-  padding-top: 0.25rem;
-  padding-bottom: 0.25rem;
 }
 
 .pb-12 {
@@ -1218,9 +1218,9 @@ video {
   transition-duration: 300ms;
 }
 
-.hover\:bg-blue-700:hover {
+.hover\:bg-blue-600:hover {
   --tw-bg-opacity: 1;
-  background-color: rgb(29 78 216 / var(--tw-bg-opacity));
+  background-color: rgb(37 99 235 / var(--tw-bg-opacity));
 }
 
 .hover\:bg-gray-50:hover {
@@ -1236,11 +1236,6 @@ video {
 .hover\:bg-yellow-600:hover {
   --tw-bg-opacity: 1;
   background-color: rgb(202 138 4 / var(--tw-bg-opacity));
-}
-
-.hover\:bg-blue-600:hover {
-  --tw-bg-opacity: 1;
-  background-color: rgb(37 99 235 / var(--tw-bg-opacity));
 }
 
 .hover\:text-gray-900:hover {
@@ -1338,16 +1333,12 @@ video {
     width: 100%;
   }
 
-  .sm\:max-w-4xl {
-    max-width: 56rem;
+  .sm\:max-w-3xl {
+    max-width: 48rem;
   }
 
   .sm\:max-w-lg {
     max-width: 32rem;
-  }
-
-  .sm\:max-w-3xl {
-    max-width: 48rem;
   }
 
   .sm\:grid-cols-4 {
@@ -1382,11 +1373,6 @@ video {
     padding: 1.5rem;
   }
 
-  .sm\:px-2 {
-    padding-left: 0.5rem;
-    padding-right: 0.5rem;
-  }
-
   .sm\:px-6 {
     padding-left: 1.5rem;
     padding-right: 1.5rem;
@@ -1394,10 +1380,6 @@ video {
 
   .sm\:pb-4 {
     padding-bottom: 1rem;
-  }
-
-  .sm\:text-left {
-    text-align: left;
   }
 
   .sm\:align-middle {

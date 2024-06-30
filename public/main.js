@@ -3,7 +3,9 @@
 document.addEventListener("DOMContentLoaded", function () {
   fetchSubmissionNumbers();
 
-  document.getElementById("winnerModalshow").addEventListener("click", fetchWinnerHistory);
+  document
+    .getElementById("winnerModalshow")
+    .addEventListener("click", fetchWinnerHistory);
 
   document.getElementById("open-form").addEventListener("click", function () {
     document.getElementById("formModal").classList.remove("hidden");
@@ -13,33 +15,39 @@ document.addEventListener("DOMContentLoaded", function () {
     document.getElementById("formModal").classList.add("hidden");
   });
 
-  document.getElementById("close-winnerModal").addEventListener("click", function () {
-    document.getElementById("winnerModal").classList.add("hidden");
-  });
+  document
+    .getElementById("close-winnerModal")
+    .addEventListener("click", function () {
+      document.getElementById("winnerModal").classList.add("hidden");
+    });
 
-  document.getElementById("guess-form").addEventListener("submit", function (event) {
-    event.preventDefault();
+  document
+    .getElementById("guess-form")
+    .addEventListener("submit", function (event) {
+      event.preventDefault();
 
-    const formData = new FormData(this);
-    const data = Object.fromEntries(formData);
+      const formData = new FormData(this);
+      const data = Object.fromEntries(formData);
 
-    fetch("/submit-guess", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        alert("Success: " + data.message);
-        document.getElementById("formModal").classList.add("hidden");
-        this.reset();
+      fetch("/submit-guess", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
       })
-      .catch((error) => {
-        console.error("Error:", error);
-      });
-  });
+        .then((response) => response.json())
+        .then((data) => {
+          alert("Success: " + data.message);
+          document.getElementById("formModal").classList.add("hidden");
+          this.reset();
+          // i want to refresh this page
+          fetchSubmissionNumbers();
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+        });
+    });
 });
 
 async function fetchWinnerHistory() {
@@ -91,14 +99,18 @@ async function fetchSubmissionNumbers() {
       const submissionElement = document.createElement("div");
       submissionElement.classList.add("submission-number");
       submissionElement.innerHTML = `
-        <div class="p-2 bg-blue-600 text-white text-center rounded-sm font-medium relative" data-tooltip="Event ID: ${index + 1}">
+        <div class="p-2 bg-blue-600 text-white text-center rounded-sm font-medium relative" data-tooltip="Event ID: ${
+          index + 1
+        }">
           ${submission.number}
         </div>
       `;
       submissionsContainer.appendChild(submissionElement);
     });
 
-    const submissionNumbers = document.querySelectorAll(".submission-number > div");
+    const submissionNumbers = document.querySelectorAll(
+      ".submission-number > div"
+    );
     submissionNumbers.forEach((submissionNumber) => {
       submissionNumber.addEventListener("mouseover", showTooltip);
       //submissionNumber.addEventListener("mousemove", moveTooltip);
