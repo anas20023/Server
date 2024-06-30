@@ -1,8 +1,24 @@
-//////////////////// Form Submit Event///////////////////////
-document
-  .getElementById("guess-form")
-  .addEventListener("submit", function (event) {
-    event.preventDefault(); // Prevent the default form submission
+// main.js
+
+document.addEventListener("DOMContentLoaded", function () {
+  fetchSubmissionNumbers();
+
+  document.getElementById("winnerModalshow").addEventListener("click", fetchWinnerHistory);
+
+  document.getElementById("open-form").addEventListener("click", function () {
+    document.getElementById("formModal").classList.remove("hidden");
+  });
+
+  document.getElementById("cancel-btn").addEventListener("click", function () {
+    document.getElementById("formModal").classList.add("hidden");
+  });
+
+  document.getElementById("close-winnerModal").addEventListener("click", function () {
+    document.getElementById("winnerModal").classList.add("hidden");
+  });
+
+  document.getElementById("guess-form").addEventListener("submit", function (event) {
+    event.preventDefault();
 
     const formData = new FormData(this);
     const data = Object.fromEntries(formData);
@@ -18,53 +34,48 @@ document
       .then((data) => {
         alert("Success: " + data.message);
         document.getElementById("formModal").classList.add("hidden");
-        this.reset(); // Reset the form fields
+        this.reset();
       })
       .catch((error) => {
         console.error("Error:", error);
       });
   });
-///////////////////////////// Fetch History////////////////////////////
-// Fetch winner history
-document
-  .getElementById("winnerModalshow")
-  .addEventListener("click", async () => {
-    try {
-      const response = await fetch("/winner-history");
-      const history = await response.json();
+});
 
-      const historyContainer = document.querySelector("#create_dv");
-      historyContainer.innerHTML = "";
+async function fetchWinnerHistory() {
+  try {
+    const response = await fetch("/winner-history");
+    const history = await response.json();
 
-      history.forEach((entry) => {
-        const entryElement = document.createElement("div");
-        entryElement.classList.add(
-          "flex",
-          "flex-col",
-          "sm:flex-row",
-          "justify-between",
-          "items-center",
-          "border-b",
-          "border-gray-200",
-          "py-2"
-        );
-        entryElement.innerHTML = `
+    const historyContainer = document.querySelector("#create_dv");
+    historyContainer.innerHTML = "";
+
+    history.forEach((entry) => {
+      const entryElement = document.createElement("div");
+      entryElement.classList.add(
+        "flex",
+        "flex-col",
+        "sm:flex-row",
+        "justify-between",
+        "items-center",
+        "border-b",
+        "border-gray-200",
+        "py-2"
+      );
+      entryElement.innerHTML = `
         <span class="font-semibold">Date: ${entry.date}</span>
         <span class="font-semibold">Winning Number: ${entry.number}</span>
         <span class="font-semibold">Winner: ${entry.users}</span>
       `;
-        historyContainer.appendChild(entryElement);
-      });
+      historyContainer.appendChild(entryElement);
+    });
 
-      document.getElementById("winnerModal").classList.remove("hidden");
-    } catch (error) {
-      alert("Failed to fetch winner history: " + error.message);
-    }
-  });
-///////////////////////////// Fetch History////////////////////////////
-///////////////////////////// Fetch Submits////////////////////////////
-// Fetch and display submission numbers
-// Fetch and display submission numbers
+    document.getElementById("winnerModal").classList.remove("hidden");
+  } catch (error) {
+    alert("Failed to fetch winner history: " + error.message);
+  }
+}
+
 async function fetchSubmissionNumbers() {
   try {
     const response = await fetch("/submission-numbers");
@@ -80,18 +91,17 @@ async function fetchSubmissionNumbers() {
       const submissionElement = document.createElement("div");
       submissionElement.classList.add("submission-number");
       submissionElement.innerHTML = `
-        <div class="p-2 bg-blue-600 text-white text-center rounded-sm font-medium relative" data-tooltip="Event ID: ${index + 1}">${
-        submission.number
-      }</div>
+        <div class="p-2 bg-blue-600 text-white text-center rounded-sm font-medium relative" data-tooltip="Event ID: ${index + 1}">
+          ${submission.number}
+        </div>
       `;
       submissionsContainer.appendChild(submissionElement);
     });
 
-    // Add event listeners for tooltips
     const submissionNumbers = document.querySelectorAll(".submission-number > div");
-    submissionNumbers.forEach(submissionNumber => {
+    submissionNumbers.forEach((submissionNumber) => {
       submissionNumber.addEventListener("mouseover", showTooltip);
-      submissionNumber.addEventListener("mousemove", moveTooltip);
+      //submissionNumber.addEventListener("mousemove", moveTooltip);
       submissionNumber.addEventListener("mouseout", hideTooltip);
     });
   } catch (error) {
@@ -101,36 +111,20 @@ async function fetchSubmissionNumbers() {
 }
 
 function showTooltip(event) {
-  let tooltip = document.querySelector(".tooltip");
-  if (!tooltip) {
-    tooltip = document.createElement("div");
-    tooltip.classList.add("tooltip");
-    document.body.appendChild(tooltip);
-  }
+  const tooltip = document.querySelector(".tooltip");
   tooltip.innerText = event.target.dataset.tooltip;
   tooltip.style.left = event.pageX + "px";
   tooltip.style.top = event.pageY + "px";
-  tooltip.classList.add("visible");
+  tooltip.classList.remove("hidden");
 }
 
 function moveTooltip(event) {
   const tooltip = document.querySelector(".tooltip");
-  if (tooltip) {
-    tooltip.style.left = event.pageX + "px";
-    tooltip.style.top = event.pageY + "px";
-  }
+  tooltip.style.left = event.pageX + "px";
+  tooltip.style.top = event.pageY + "px";
 }
 
 function hideTooltip() {
   const tooltip = document.querySelector(".tooltip");
-  if (tooltip) {
-    tooltip.classList.remove("visible");
-  }
+  tooltip.classList.add("hidden");
 }
-
-
-// Call fetchSubmissionNumbers when the page loads
-document.addEventListener("DOMContentLoaded", fetchSubmissionNumbers);
-///////////////////////////// Fetch Submits////////////////////////////
-///////////////////////////// Fetch History////////////////////////////
-//////////////////// Form Submit Event///////////////////////
