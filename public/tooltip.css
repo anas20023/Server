@@ -1,0 +1,17 @@
+.tooltip {
+    position: absolute;
+    display: none;
+    background-color: rgba(31, 41, 55, 0.8); /* Tailwind gray-800 with opacity */
+    color: white;
+    text-align: center;
+    border-radius: 0.25rem; /* Tailwind rounded-md */
+    padding: 0.5rem; /* Tailwind p-2 */
+    z-index: 1000;
+    transition: opacity 0.2s;
+    font-size: 0.875rem; /* Tailwind text-sm */
+  }
+  
+  .tooltip.visible {
+    display: block;
+    opacity: 1;
+  }

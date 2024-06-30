@@ -22,7 +22,7 @@ async function fetchEventDetails() {
         titleElement.textContent = `Event ID : ${event.eventID}`;
       }
       if (dateElement) {
-        dateElement.textContent = `Event Date: ${event.eventDate}`;
+        dateElement.textContent = `Event Date: ${event.eventDate.substring(0,10)}`;
       }
       if (winningNumberElement) {
         winningNumberElement.textContent = `Winning Number: ${event.winningNumber}`;

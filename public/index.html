@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Lucky Draw</title>
     <link rel="stylesheet" href="./dist/output.css" />
+    <link rel="stylesheet" href="./tooltip.css" />
     <style>
       .card,
       .modal-content {
@@ -104,12 +105,12 @@
       </div>
 
       <!-- User Submissions -->
-      <div class="bg-white shadow-lg rounded-lg p-6 mb-8">
+      <div class="bg-white border-2 border-blue-100 rounded-lg p-6 mb-8">
         <h2 class="text-3xl font-bold text-center text-gray-800">
           User Submissions
         </h2>
         <div
-          class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4 mt-6"
+          class="grid grid-cols-4 md:grid-cols-4 lg:grid-cols-6 gap-4 mt-6"
           id="submissions">
           <!-- Example submission -->
           <!-- More submissions will be loaded here -->
@@ -151,15 +152,14 @@
     </main>
 
     <!-- Bottom Bar with Button -->
-    <div class="bg-gray-800 text-white py-8 w-full sticky bottom-0">
+    <div class="bg-gray-800 text-white py-6 w-full sticky bottom-0">
       <div
         class="container flex flex-row justify-center items-center text-center">
         <!-- Button for Navigate to Event Detail Page -->
         <button
-          href="./winner-history.html"
           id="winnerModalshow"
-          class="bg-white mx-2 hover:bg-yellow-600 text-black py-2 px-4 rounded-md text-md transition duration-300">
-          Winner History
+          class="mx-2 text-white py-2 px-4 rounded-md text-md transition duration-300">
+          History
         </button>
         <!-- Submit Button -->
         <button
@@ -168,11 +168,6 @@
           Submit Guess
         </button>
         <!-- Timer Container -->
-        <div
-          id="timer-container"
-          class="hidden bg-yellow-500 mx-2 max-w-18 hover:bg-yellow-600 text-black py-2 px-4 rounded-md text-md transition duration-300">
-          Next Submit : <span id="timer">5:00</span>
-        </div>
       </div>
     </div>
 
@@ -231,19 +226,20 @@
                         type="text"
                         id="username"
                         name="username"
+                        required
                         class="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
                         placeholder="Enter your username" />
                     </div>
-                    <div class="flex justify-between items-center">
+                    <div class="flex justify-between items-center gap-1">
                       <button
                         type="submit"
-                        class="w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:w-auto sm:text-sm">
+                        class="inline-flex justify-center w-full px-4 py-2 text-base font-medium text-white bg-blue-600 border border-gray-300 rounded-md shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:w-auto sm:text-sm sm:px-2">
                         Submit
                       </button>
                       <button
                         type="button"
                         id="closebtn"
-                        class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:w-auto sm:text-sm">
+                        class="inline-flex justify-center w-full px-4 py-2 text-base font-medium text-gray-800 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:w-auto sm:text-sm sm:px-2">
                         Close
                       </button>
                     </div>
@@ -288,8 +284,7 @@
             <button
               type="button"
               id="modclose"
-              class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
-              >
+              class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
               Close
             </button>
           </div>

@@ -27,6 +27,10 @@ document.addEventListener("DOMContentLoaded", async () => {
         usrnm.substring(usrnm.length - 2, usrnm.length);
       // should show 1st and last 1/2 letter
       //console.log(newUsrnm);
+      let datestr = history.date;
+      // i need only date/month/year
+      let newDatestr = datestr.substring(0, 10);
+      // console.log(history);
       const historyItem = document.createElement("div");
       historyItem.classList.add(
         "history-item",
@@ -38,8 +42,9 @@ document.addEventListener("DOMContentLoaded", async () => {
         "border-blue-500"
       );
       historyItem.innerHTML = `
-    <a href="event-detail.html" class="text-lg font-medium text-gray-700 hover:text-gray-900">
-      <span>Date: ${history.date}</span>
+    <a href="event-detail.html" class="flex flex-col text-lg font-medium text-gray-700 hover:text-gray-900">
+      <span>Date: ${newDatestr}</span>
+      <span class="text-sm">Event ID : ${history.evnt}</span>
     </a>
     <div class="flex justify-between mt-2 text-blue-600">
       <span>Winning Number: ${history.number}</span>

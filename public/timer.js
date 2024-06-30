@@ -1,80 +1,49 @@
-document.addEventListener('DOMContentLoaded', function() {
-    const submitButton = document.getElementById('open-form');
-    const timerContainer = document.getElementById('timer-container');
-    const timerElement = document.getElementById('timer');
-    const timerKey = 'timerStartTime';
-    
-    submitButton.addEventListener('click', function() {
-      // Hide the submit button
-      submitButton.classList.add('hidden');
-      // Show the timer container
-      timerContainer.classList.remove('hidden');
-      
-      // Check if there's already a timer running
-      const storedStartTime = localStorage.getItem(timerKey);
-      let startTime;
-      if (storedStartTime) {
-        startTime = parseInt(storedStartTime, 10);
-      } else {
-        startTime = Date.now(); // Timestamp when timer starts
-        localStorage.setItem(timerKey, startTime);
+document.addEventListener("DOMContentLoaded", function () {
+  // Function to start a 5-minute countdown
+  function startFiveMinuteCountdown() {
+    const countdownElement = document.getElementById("cnt_dwn");
+
+    // Check if there's a saved timer in localStorage
+    let timer = parseInt(localStorage.getItem("remainingTime")) || 300; // 5 minutes in seconds
+
+    const intervalId = setInterval(() => {
+      const minutes = Math.floor(timer / 60);
+      const seconds = timer % 60;
+
+      countdownElement.textContent = `Next draw in ${minutes}m ${seconds}s`;
+
+      // Check if countdown has reached zero
+      if (timer <= 0) {
+        clearInterval(intervalId); // Stop the interval
+        localStorage.removeItem("remainingTime"); // Clear the saved timer
+        refreshLuckyNumber(); // Refresh the lucky number
       }
-      
-      const countdown = setInterval(function() {
-        const now = Date.now();
-        const elapsedSeconds = Math.floor((now - startTime) / 1000);
-        const remainingSeconds = 5 * 60 - elapsedSeconds;
-        
-        if (remainingSeconds <= 0) {
-          clearInterval(countdown);
-          timerElement.textContent = 'Timer finished!';
-          
-          // Show the submit button again
-          submitButton.classList.remove('hidden');
-          
-          // Hide the timer container
-          timerContainer.classList.add('hidden');
-          
-          // Clear localStorage
-          localStorage.removeItem(timerKey);
-        } else {
-          const minutes = Math.floor(remainingSeconds / 60);
-          const seconds = remainingSeconds % 60;
-          timerElement.textContent = `${minutes}:${seconds < 10 ? '0' + seconds : seconds}`;
-        }
-      }, 1000);
-    });
-    
-    // Check if there's an ongoing timer on page load
-    const storedStartTime = localStorage.getItem(timerKey);
-    if (storedStartTime) {
-      submitButton.classList.add('hidden');
-      timerContainer.classList.remove('hidden');
-      
-      const startTime = parseInt(storedStartTime, 10);
-      
-      const countdown = setInterval(function() {
-        const now = Date.now();
-        const elapsedSeconds = Math.floor((now - startTime) / 1000);
-        const remainingSeconds = 5 * 60 - elapsedSeconds;
-        
-        if (remainingSeconds <= 0) {
-          clearInterval(countdown);
-          timerElement.textContent = 'Timer finished!';
-          
-          // Show the submit button again
-          submitButton.classList.remove('hidden');
-          
-          // Hide the timer container
-          timerContainer.classList.add('hidden');
-          
-          // Clear localStorage
-          localStorage.removeItem(timerKey);
-        } else {
-          const minutes = Math.floor(remainingSeconds / 60);
-          const seconds = remainingSeconds % 60;
-          timerElement.textContent = `${minutes}:${seconds < 10 ? '0' + seconds : seconds}`;
-        }
-      }, 1000);
-    }
-  });
+
+      // Save the remaining time to localStorage
+      localStorage.setItem("remainingTime", timer);
+
+      timer--; // Decrease time by 1 second
+    }, 1000);
+  }
+
+  // Function to refresh the lucky number
+  function refreshLuckyNumber() {
+    const luckyNumberElement = document.getElementById("lucky-number");
+
+    // Fetch new lucky number from backend
+    fetch("/current-lucky-number")
+      .then((response) => response.json())
+      .then((data) => {
+        const newNumber = data.number; // Assuming API returns { number: 'xxx' }
+        luckyNumberElement.textContent = newNumber;
+
+        // Restart the 5-minute countdown
+        startFiveMinuteCountdown();
+      })
+      .catch((error) => {
+        console.error("Error fetching new lucky number:", error);
+      });
+  }
+  // Start the initial 5-minute countdown
+  startFiveMinuteCountdown();
+});

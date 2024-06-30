@@ -59,7 +59,9 @@ document.addEventListener("DOMContentLoaded", function () {
   const modalclose = document.querySelector("#modclose");
 
   modalshow.addEventListener("click", function () {
-    document.getElementById("winnerModal").classList.remove("hidden");
+    //document.getElementById("winnerModal").classList.remove("hidden");
+    //redirect to winner-history html
+    window.location.href = "winner-history.html";
   });
 
   modalclose.addEventListener("click", function () {

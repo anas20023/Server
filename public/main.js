@@ -76,19 +76,58 @@ async function fetchSubmissionNumbers() {
     const submissionsContainer = document.getElementById("submissions");
     submissionsContainer.innerHTML = "";
 
-    numbers.forEach((submission) => {
+    numbers.forEach((submission, index) => {
       const submissionElement = document.createElement("div");
       submissionElement.classList.add("submission-number");
       submissionElement.innerHTML = `
-        <div class="p-3 bg-blue-600 text-white text-center rounded-lg font-semibold">${submission.number}</div>
+        <div class="p-2 bg-blue-600 text-white text-center rounded-sm font-medium relative" data-tooltip="Event ID: ${index + 1}">${
+        submission.number
+      }</div>
       `;
       submissionsContainer.appendChild(submissionElement);
     });
+
+    // Add event listeners for tooltips
+    const submissionNumbers = document.querySelectorAll(".submission-number > div");
+    submissionNumbers.forEach(submissionNumber => {
+      submissionNumber.addEventListener("mouseover", showTooltip);
+      submissionNumber.addEventListener("mousemove", moveTooltip);
+      submissionNumber.addEventListener("mouseout", hideTooltip);
+    });
   } catch (error) {
-    console.error("Error fetching submission numbers:", error);
+    console.log("Error fetching submission numbers:", error);
     alert("Failed to fetch submission numbers: " + error.message);
   }
 }
+
+function showTooltip(event) {
+  let tooltip = document.querySelector(".tooltip");
+  if (!tooltip) {
+    tooltip = document.createElement("div");
+    tooltip.classList.add("tooltip");
+    document.body.appendChild(tooltip);
+  }
+  tooltip.innerText = event.target.dataset.tooltip;
+  tooltip.style.left = event.pageX + "px";
+  tooltip.style.top = event.pageY + "px";
+  tooltip.classList.add("visible");
+}
+
+function moveTooltip(event) {
+  const tooltip = document.querySelector(".tooltip");
+  if (tooltip) {
+    tooltip.style.left = event.pageX + "px";
+    tooltip.style.top = event.pageY + "px";
+  }
+}
+
+function hideTooltip() {
+  const tooltip = document.querySelector(".tooltip");
+  if (tooltip) {
+    tooltip.classList.remove("visible");
+  }
+}
+
 
 // Call fetchSubmissionNumbers when the page loads
 document.addEventListener("DOMContentLoaded", fetchSubmissionNumbers);
