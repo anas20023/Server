@@ -90,7 +90,7 @@ app.get("/current-lucky-number", async (req, res) => {
 ///////////////////////////////////////////////////////////////
 app.get("/event", async (req, res) => {
  // const eventId = req.params.eventId;
-  console.log("Fetching event with ID:"); // Log event ID
+  //console.log("Fetching event with ID:"); // Log event ID
 
   try {
     const event = await Event.find();
@@ -98,7 +98,7 @@ app.get("/event", async (req, res) => {
       console.log("Event not found");
       return res.status(404).json({ message: "Event not found" });
     }
-    console.log("Event found:", event); // Log found event
+    //console.log("Event found:", event); // Log found event
     res.json(event);
   } catch (error) {
     console.error("Error fetching event:", error);
