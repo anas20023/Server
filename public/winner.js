@@ -21,10 +21,15 @@ document.addEventListener("DOMContentLoaded", async () => {
       let usrnm = history.users;
       usrnm.toString();
       // logic for modify the username. ex : user123 to u****23 must show some first and last letters
-      let newUsrnm =
-        usrnm.substring(0, 1) +
-        "***" +
-        usrnm.substring(usrnm.length - 2, usrnm.length);
+      let newUsrnm;
+      if (usrnm !== "no winner") {
+        newUsrnm =
+          usrnm.substring(0, 1) +
+          "***" +
+          usrnm.substring(usrnm.length - 2, usrnm.length);
+      } else {
+        newUsrnm = usrnm;
+      }
       // should show 1st and last 1/2 letter
       //console.log(newUsrnm);
       let datestr = history.date;

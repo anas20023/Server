@@ -1,5 +1,5 @@
 // main.js
-
+import { evnt_nmbr } from "./timer.js";
 document.addEventListener("DOMContentLoaded", function () {
   fetchSubmissionNumbers();
 
@@ -28,7 +28,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
       const formData = new FormData(this);
       const data = Object.fromEntries(formData);
-
+      // i want to add event number from top counting
+      const temp = evnt_nmbr + 1;
+      data["eventNumber"] = temp;
+      //console.log(temp);
       fetch("/submit-guess", {
         method: "POST",
         headers: {

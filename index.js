@@ -4,7 +4,6 @@ const bodyParser = require("body-parser");
 const path = require("path");
 const WinnerHistory = require("./dbscm.js");
 const Event = require("./models/Event.js");
-const collectionName = 'winnerhistories';
 
 // Load environment variables
 require("dotenv").config();
@@ -25,14 +24,30 @@ mongoose
     console.error("MongoDB connection error:", error);
     process.exit(1); // Exit process if unable to connect to MongoDB
   });
+const eventSchema = new mongoose.Schema(
+  {
+    nmbr: {
+      type: Number,
+      required: true,
+    },
+    luck: {
+      type: Number,
+      required: true,
+    },
+    // other fields
+  },
+  { collection: "eventnm" }
+); // Specify collection name explicitly
 
+const Eventnm = mongoose.model("eventnm", eventSchema);
 // Serve static files from the 'public' directory
 app.use(express.static(path.join(__dirname, "public")));
 app.use(bodyParser.json()); // Middleware to parse JSON bodies
 
 // Define a schema and model for the guesses
 const guessSchema = new mongoose.Schema({
-  number: String,
+  number: Number,
+  eventNumber: Number,
   brand: String,
   username: String,
 });
@@ -49,7 +64,6 @@ app.post("/submit-guess", async (req, res) => {
     res.status(400).json({ error: "Error submitting guess" });
   }
 });
- 
 // Route to fetch winner history
 app.get("/winner-history", async (req, res) => {
   try {
@@ -59,7 +73,6 @@ app.get("/winner-history", async (req, res) => {
     res.status(500).json({ message: "Failed to fetch winner history", error });
   }
 });
-
 // Route to fetch submission numbers
 app.get("/submission-numbers", async (req, res) => {
   try {
@@ -72,43 +85,70 @@ app.get("/submission-numbers", async (req, res) => {
       .json({ message: "Failed to fetch submission numbers", error });
   }
 });
-
-// Route to fetch current lucky number
-app.get("/current-lucky-number", async (req, res) => {
+// Route to fetch previous submissions
+app.get("/previous-submissions", async (req, res) => {
   try {
-    // Assuming you have a method or query to fetch the current lucky number from the database
-    const currentLuckyNumber = await fetchCurrentLuckyNumber(); // Replace with your actual logic to fetch the current lucky number
-    res.json({ number: currentLuckyNumber }); // Respond with JSON containing the current lucky number
+    const submissions = await Guess.find();
+    res.json(submissions);
   } catch (error) {
-    console.error("Error fetching current lucky number:", error);
+    console.error("Error fetching previous submissions:", error);
     res
       .status(500)
-      .json({ message: "Failed to fetch current lucky number", error });
+      .json({ message: "Failed to fetch previous submissions", error });
   }
 });
-
-///////////////////////////////////////////////////////////////
+// Route to fetch event details
 app.get("/event", async (req, res) => {
- // const eventId = req.params.eventId;
-  //console.log("Fetching event with ID:"); // Log event ID
-
   try {
     const event = await Event.find();
     if (!event) {
       console.log("Event not found");
       return res.status(404).json({ message: "Event not found" });
     }
-    //console.log("Event found:", event); // Log found event
     res.json(event);
   } catch (error) {
     console.error("Error fetching event:", error);
     res.status(500).json({ message: "Failed to fetch event", error });
   }
 });
-
-///////////////////////////////////////////////////////////////
+app.get("/getevntnmr", async (req, res) => {
+  try {
+    // Find the document with the highest 'nmbr'
+    // i need that full object which has that highst num
+    const lastEvent = await Eventnm.findOne().sort({ nmbr: -1 });
+    if (!lastEvent) {
+      return res.status(404).json({ error: "No events found" });
+    }
+    res.json(lastEvent);
+  } catch (error) {
+    console.error("Error fetching last event number:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+// create a post route for add number in Eventnm
+app.post("/addnumber", async (req, res) => {
+  try {
+    const { nmbr, luck } = req.body;
+    const newEvent = new Eventnm({ nmbr, luck });
+    await newEvent.save();
+    res.json({ message: "Event number added successfully" });
+  } catch (error) {
+    console.error("Error adding event number:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+app.post("/add-winner", async (req, res) => {
+  try {
+    //console.log("Request body:", req.body); // Debugging log to check incoming data
+    const newWinner = new WinnerHistory(req.body);
+    await newWinner.save();
+    res.status(201).json({ message: "Winner added successfully!", newWinner });
+  } catch (error) {
+    console.error("Error adding winner:", error);
+    res.status(500).json({ message: "Failed to add winner", error });
+  }
+});
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
-

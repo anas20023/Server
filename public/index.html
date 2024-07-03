@@ -10,12 +10,6 @@
       .modal-content {
         border: none;
       }
-
-      .submission-number {
-        padding-left: 0.25rem;
-        padding-right: 0.25rem;
-      }
-
       .tooltip {
         position: absolute;
         z-index: 50;
@@ -113,9 +107,10 @@
     <!-- Main Content -->
     <main class="container mx-auto mt-8 pb-12 max-w-6xl flex-grow">
       <!-- Lucky Draw Number -->
-      <div
-        class="bg-gray-100 border-2 border-blue-100 rounded-lg p-6 text-center mb-8">
-        <h2 class="text-3xl font-bold text-gray-800">Previous Result</h2>
+      <div class="bg-gray-100 rounded-lg p-6 text-center mb-8">
+        <h2
+          id="rslt_head"
+          class="text-xl lg:text-3xl font-bold text-gray-800"></h2>
         <div
           class="text-6xl text-blue-600 my-4 font-extrabold"
           id="lucky-number"></div>
@@ -124,17 +119,16 @@
             >Prize: USD 100</span
           >
         </p>
-        <p class="mt-4 text-gray-400 font-semibold text-sm">Event ID : 1</p>
-        <p id="cnt_dwn" class="mt-2 text-gray-500 font-bold text-base"></p>
+        <p id="cnt_dwn" class="mt-4 text-gray-500 font-bold text-base"></p>
       </div>
 
       <!-- User Submissions -->
-      <div class="bg-gray-100 border-2 border-blue-100 rounded-lg p-6 mb-8">
+      <div class="bg-gray-100 rounded-lg p-6 mb-8">
         <h2 class="text-3xl font-bold text-center text-gray-800">
           User Submissions
         </h2>
         <div
-          class="grid grid-cols-4 md:grid-cols-4 lg:grid-cols-6 gap-4 mt-6"
+          class="grid grid-cols-4 md:grid-cols-4 lg:grid-cols-8 gap-2 mt-6"
           id="submissions">
           <!-- Example submission -->
           <!-- More submissions will be loaded here -->
@@ -177,11 +171,13 @@
 
     <!-- Bottom Bar with Button -->
     <div
-      class="bg-gray-800 text-white py-6 w-full sticky bottom-0 mx-auto items-center">
+      class="bg-gray-800 text-white py-2 w-full sticky bottom-0 mx-auto items-center">
       <div
         class="container mx-auto px-4 sm:px-6 lg:px-8 flex flex-row justify-center items-center text-center">
         <!-- Button for Navigate to Event Detail Page -->
-        <button id="winnerModalshow" class="mx-2 my-2 sm:my-0 text-white py-2 px-4 rounded-md text-md transition duration-300">
+        <button
+          id="winnerModalshow"
+          class="mx-2 my-2 sm:my-0 text-white py-2 px-4 rounded-md text-md transition duration-300">
           History
         </button>
         <!-- Submit Button -->
@@ -255,12 +251,12 @@
                     <div class="flex justify-between items-center gap-1">
                       <button
                         type="submit"
-                        class="inline-flex justify-center w-full px-4 py-2 text-base font-medium text-white bg-blue-500 border border-transparent rounded-md shadow-sm hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
+                        class="inline-flex justify-center w-full px-4 py-2 text-base font-medium text-white bg-blue-500 border border-transparent rounded-md shadow-sm sm:w-auto sm:text-sm">
                         Submit
                       </button>
                       <button
                         type="button"
-                        class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:mt-0 sm:w-auto sm:text-sm"
+                        class="w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 sm:w-auto sm:text-sm"
                         id="cancel-btn">
                         Cancel
                       </button>
@@ -318,11 +314,11 @@
       </div>
     </div>
 
+    <script type="module" src="./timer.js"></script>
     <script src="./fe.js"></script>
-    <script src="./timer.js"></script>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script src="./main.js"></script>
+    <script type="module" src="./main.js"></script>
   </body>
 </html>
