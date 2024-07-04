@@ -108,7 +108,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
   // Start the initial 5-minute countdown when the DOM is loaded
-  //startFiveMinuteCountdown();
+  startFiveMinuteCountdown();
 });
 const eventnmbr = async () => {
   const res = await fetch("/getevntnmr");

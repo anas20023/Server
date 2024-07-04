@@ -226,16 +226,20 @@
                         placeholder="Enter your guess" />
                     </div>
                     <div class="mb-4">
-                      <label for="brand" class="block text-gray-700"
-                        >Brand:</label
-                      >
-                      <input
-                        type="text"
+                      <label for="brand" class="block text-gray-700">Brand:</label>
+                      <select
                         id="brand"
                         name="brand"
-                        class="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-                        placeholder="Enter the brand" />
+                        class="appearance-none  mt-1 block w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                      >
+                        <option value="" disabled selected>Select a brand</option>
+                        <option value="brand 1">Brand 1</option>
+                        <option value="brand 2">Brand 2</option>
+                        <option value="brand 3">Brand 3</option>
+                        <!-- Add more options as needed -->
+                      </select>
                     </div>
+                    
                     <div class="mb-4">
                       <label for="username" class="block text-gray-700"
                         >Username:</label
@@ -315,6 +319,7 @@
     </div>
 
     <script type="module" src="./timer.js"></script>
+    <script type="module" src="./main.js"></script>
     <script src="./fe.js"></script>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
