@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="./dist/output.css" rel="stylesheet" />
+    <title>How it Works?</title>
+    <style>
+      body {
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+      }
+      main {
+        flex: 1;
+      }
+    </style>
+  </head>
+  <body class="bg-gray-100 font-sans">
+    <header class="bg-gray-800 text-white">
+      <div
+        class="container mx-auto flex justify-between items-center py-4 px-6 max-w-6xl">
+        <div class="text-3xl font-bold">Lucky Draw</div>
+        <nav>
+          <ul class="hidden md:flex space-x-6">
+            <li><a href="./index.html" class="hover:text-gray-300">Home</a></li>
+            <li>
+              <a href="./winner-history.html" class="hover:text-gray-300"
+                >History</a
+              >
+            </li>
+            <li>
+              <a href="./event-detail.html" class="hover:text-gray-300"
+                >Event Details</a
+              >
+            </li>
+          </ul>
+          <button
+            class="md:hidden flex items-center px-3 py-2 border rounded text-white border-white"
+            onclick="toggleMenu()">
+            <svg
+              class="fill-current h-3 w-3"
+              viewBox="0 0 20 20"
+              xmlns="http://www.w3.org/2000/svg">
+              <title>Menu</title>
+              <path d="M0 3h20v2H0zM0 9h20v2H0zM0 15h20v2H0z" />
+            </svg>
+          </button>
+        </nav>
+      </div>
+      <div id="mobileMenu" class="hidden md:hidden">
+        <ul class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+          <li>
+            <a
+              href="./index.html"
+              class="block text-white hover:bg-gray-700 px-3 py-2 rounded-md text-base font-medium"
+              >Home</a
+            >
+          </li>
+          <li>
+            <a
+              href="./winner-history.html"
+              class="block text-white hover:bg-gray-700 px-3 py-2 rounded-md text-base font-medium"
+              >History</a
+            >
+          </li>
+          <li>
+            <a
+              href="./event-detail.html"
+              class="block text-white hover:bg-gray-700 px-3 py-2 rounded-md text-base font-medium"
+              >Event Details</a
+            >
+          </li>
+        </ul>
+      </div>
+    </header>
+
+    <main class="container mx-auto py-8 px-4 max-w-6xl">
+      <section class="bg-white shadow-md rounded-lg p-6 mb-8">
+        <h2 class="text-2xl font-semibold mb-4">Step 1: Enter the Draw</h2>
+        <p class="text-gray-700">
+          Participate in the draw by entering your details. Each entry gives you
+          a chance to win exciting prizes.
+        </p>
+      </section>
+
+      <section class="bg-white shadow-md rounded-lg p-6 mb-8">
+        <h2 class="text-2xl font-semibold mb-4">
+          Step 2: Wait for the Results
+        </h2>
+        <p class="text-gray-700">
+          Sit back and relax while we randomly select the winners. Keep an eye
+          on your email for the announcement.
+        </p>
+      </section>
+
+      <section class="bg-white shadow-md rounded-lg p-6">
+        <h2 class="text-2xl font-semibold mb-4">Step 3: Claim Your Prize</h2>
+        <p class="text-gray-700">
+          If you are one of the lucky winners, follow the instructions in the
+          email to claim your prize.
+        </p>
+      </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white w-full py-4">
+      <div class="container mx-auto text-center">
+        <p>&copy; 2024 Lucky Draw. All rights reserved.</p>
+      </div>
+    </footer>
+
+    <script>
+      function toggleMenu() {
+        var menu = document.getElementById("mobileMenu");
+        menu.classList.toggle("hidden");
+      }
+    </script>
+  </body>
+</html>
