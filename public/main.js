@@ -2,7 +2,6 @@
 import { evnt_nmbr } from "./timer.js";
 document.addEventListener("DOMContentLoaded", function () {
   fetchSubmissionNumbers();
-
   document.getElementById("winnerModalshow").addEventListener("click", () => {
     console.log("modal reqstd");
   });

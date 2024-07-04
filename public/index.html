@@ -5,46 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Lucky Draw</title>
     <link rel="stylesheet" href="./dist/output.css" />
-    <style>
-      .card,
-      .modal-content {
-        border: none;
-      }
-      .tooltip {
-        position: absolute;
-        z-index: 50;
-        pointer-events: none;
-        transition: opacity 0.3s ease-in-out;
-        background-color: #333;
-        color: #fff;
-        border-radius: 0.25rem;
-        padding: 0.5rem;
-        font-size: 0.875rem;
-      }
-
-      .tooltip.hidden {
-        opacity: 0;
-        visibility: hidden;
-      }
-
-      .tooltip.visible {
-        opacity: 1;
-        visibility: visible;
-      }
-    </style>
   </head>
 
   <body
     class="bg-gray-100 flex flex-col min-h-screen"
     x-data="{ winnerModal: false }">
-    <div
-      class="tooltip hidden absolute bg-gray-800 text-white text-sm rounded px-2 py-1"></div>
     <!-- Header -->
     <nav class="bg-gray-800 p-4 shadow-lg">
       <div
         class="container mx-auto flex justify-between items-center max-w-6xl">
         <!-- Logo and Title -->
-        <a href="#" class="text-white text-2xl font-bold">Lucky Draw</a>
+        <a href="#" class="text-white text-lg lg:text-2xl font-bold">Lucky Draw</a>
 
         <!-- Navigation Links and Button (for large screens) -->
         <div class="hidden lg:flex items-center space-x-4">
@@ -84,24 +55,15 @@
       </div>
 
       <!-- Responsive Menu (hidden by default) -->
-      <div
-        id="responsive-menu"
-        class="hidden lg:hidden bg-gray-800 w-full py-4">
+      <div id="responsive-menu" class="hidden lg:hidden bg-gray-800 w-full py-4 transition-all duration-300 ease-in-out">
         <div class="flex flex-col items-center space-y-4">
           <!-- Home Link -->
-          <a
-            href="#"
-            class="text-gray-300 hover:text-white transition-colors duration-300"
-            >Home</a
-          >
+          <a href="#" class="text-gray-300 text-sm hover:text-white transition-colors duration-300">Home</a>
           <!-- Winner History Link -->
-          <a
-            href="./winner-history.html"
-            class="text-gray-300 hover:text-white transition-colors duration-300"
-            >History</a
-          >
+          <a href="./winner-history.html" class="text-gray-300 text-sm hover:text-white transition-colors duration-300">History</a>
         </div>
       </div>
+      
     </nav>
 
     <!-- Main Content -->
@@ -128,7 +90,7 @@
           User Submissions
         </h2>
         <div
-          class="grid grid-cols-4 md:grid-cols-4 lg:grid-cols-8 gap-2 mt-6"
+          class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-8 gap-2 mt-6"
           id="submissions">
           <!-- Example submission -->
           <!-- More submissions will be loaded here -->
@@ -226,20 +188,23 @@
                         placeholder="Enter your guess" />
                     </div>
                     <div class="mb-4">
-                      <label for="brand" class="block text-gray-700">Brand:</label>
+                      <label for="brand" class="block text-gray-700"
+                        >Brand:</label
+                      >
                       <select
                         id="brand"
                         name="brand"
-                        class="appearance-none  mt-1 block w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-                      >
-                        <option value="" disabled selected>Select a brand</option>
+                        class="appearance-none mt-1 block w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                        <option value="" disabled selected>
+                          Select a brand
+                        </option>
                         <option value="brand 1">Brand 1</option>
                         <option value="brand 2">Brand 2</option>
                         <option value="brand 3">Brand 3</option>
                         <!-- Add more options as needed -->
                       </select>
                     </div>
-                    
+
                     <div class="mb-4">
                       <label for="username" class="block text-gray-700"
                         >Username:</label
@@ -275,7 +240,6 @@
         </div>
       </div>
     </div>
-
     <!-- Winner Modal -->
     <div class="fixed z-10 inset-0 overflow-y-auto hidden" id="winnerModal">
       <div
@@ -318,12 +282,8 @@
       </div>
     </div>
 
+    <script type="module" src="./main.js"></script>
     <script type="module" src="./timer.js"></script>
-    <script type="module" src="./main.js"></script>
     <script src="./fe.js"></script>
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script type="module" src="./main.js"></script>
   </body>
 </html>

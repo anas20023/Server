@@ -4,7 +4,13 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link href="./dist/output.css" rel="stylesheet" />
-    <title>How it Works?</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+      integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer" />
+    <title>Guess the Random Number - Win Cash!</title>
     <style>
       body {
         display: flex;
@@ -19,102 +25,96 @@
   <body class="bg-gray-100 font-sans">
     <header class="bg-gray-800 text-white">
       <div
-        class="container mx-auto flex justify-between items-center py-4 px-6 max-w-6xl">
+        class="container mx-auto flex justify-between items-center py-4 px-6 max-w-2xl">
         <div class="text-3xl font-bold">Lucky Draw</div>
         <nav>
-          <ul class="hidden md:flex space-x-6">
-            <li><a href="./index.html" class="hover:text-gray-300">Home</a></li>
-            <li>
-              <a href="./winner-history.html" class="hover:text-gray-300"
-                >History</a
-              >
-            </li>
-            <li>
-              <a href="./event-detail.html" class="hover:text-gray-300"
-                >Event Details</a
-              >
-            </li>
-          </ul>
-          <button
-            class="md:hidden flex items-center px-3 py-2 border rounded text-white border-white"
-            onclick="toggleMenu()">
-            <svg
-              class="fill-current h-3 w-3"
-              viewBox="0 0 20 20"
-              xmlns="http://www.w3.org/2000/svg">
-              <title>Menu</title>
-              <path d="M0 3h20v2H0zM0 9h20v2H0zM0 15h20v2H0z" />
-            </svg>
-          </button>
+          <a
+            href="./index.html"
+            class="hover:text-gray-300 text-base flex items-center">
+            <i class="fa-solid fa-arrow-left mr-2 mt-1"></i>Back to Home
+          </a>
         </nav>
-      </div>
-      <div id="mobileMenu" class="hidden md:hidden">
-        <ul class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-          <li>
-            <a
-              href="./index.html"
-              class="block text-white hover:bg-gray-700 px-3 py-2 rounded-md text-base font-medium"
-              >Home</a
-            >
-          </li>
-          <li>
-            <a
-              href="./winner-history.html"
-              class="block text-white hover:bg-gray-700 px-3 py-2 rounded-md text-base font-medium"
-              >History</a
-            >
-          </li>
-          <li>
-            <a
-              href="./event-detail.html"
-              class="block text-white hover:bg-gray-700 px-3 py-2 rounded-md text-base font-medium"
-              >Event Details</a
-            >
-          </li>
-        </ul>
       </div>
     </header>
 
-    <main class="container mx-auto py-8 px-4 max-w-6xl">
-      <section class="bg-white shadow-md rounded-lg p-6 mb-8">
-        <h2 class="text-2xl font-semibold mb-4">Step 1: Enter the Draw</h2>
-        <p class="text-gray-700">
-          Participate in the draw by entering your details. Each entry gives you
-          a chance to win exciting prizes.
-        </p>
-      </section>
+    <main class="container mx-auto px-4 py-8 max-w-2xl">
+      <h1 class="text-4xl font-bold mb-6 text-center text-blue-600">
+        Guess the Random Number and Win Cash!
+      </h1>
 
-      <section class="bg-white shadow-md rounded-lg p-6 mb-8">
-        <h2 class="text-2xl font-semibold mb-4">
-          Step 2: Wait for the Results
+      <div
+        class="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 mb-6"
+        role="alert">
+        <p class="font-bold">Great News:</p>
+        <p>
+          This game is completely free to play! No additional charges. Sponsored
+          by the brand for marketing purposes.
+        </p>
+      </div>
+
+      <p class="mb-4 text-lg">
+        A random 3-digit number is chosen every 6 hours. Join now for your
+        chance to win cash prizes!
+      </p>
+
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <h2 class="text-2xl font-semibold mb-2 text-blue-600">How to Play:</h2>
+        <ol class="list-decimal list-inside space-y-2">
+          <li>Make your guess for the 3-digit number</li>
+          <li>Wait for the result and see if you've won!</li>
+        </ol>
+      </div>
+
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <h2 class="text-2xl font-semibold mb-2 text-blue-600">
+          Prize Structure:
         </h2>
-        <p class="text-gray-700">
-          Sit back and relax while we randomly select the winners. Keep an eye
-          on your email for the announcement.
+        <ul class="list-disc list-inside space-y-2">
+          <li>
+            <span class="font-bold text-red-800">USD 1</span> for correctly
+            guessing the last digit
+          </li>
+          <li>
+            <span class="font-bold text-red-800">USD 5</span> for correctly
+            guessing the last two digits
+          </li>
+          <li>
+            <span class="font-bold text-red-800">USD 50</span> for correctly
+            guessing all three digits
+          </li>
+        </ul>
+        <p class="mt-4 font-semibold">
+          <span class="font-bold text-red-800">Double the prize</span> if you're
+          a deposit player at your brand!
         </p>
-      </section>
+      </div>
 
-      <section class="bg-white shadow-md rounded-lg p-6">
-        <h2 class="text-2xl font-semibold mb-4">Step 3: Claim Your Prize</h2>
-        <p class="text-gray-700">
-          If you are one of the lucky winners, follow the instructions in the
-          email to claim your prize.
+      <div
+        class="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4 mb-6"
+        role="alert">
+        <p class="font-bold">Important:</p>
+        <p>
+          You must register through the <strong>sponsor link</strong> below, or
+          your prize will be forfeited.
         </p>
-      </section>
+      </div>
+
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <h2 class="text-2xl font-semibold mb-2 text-blue-600">
+          Withdrawal Information:
+        </h2>
+        <p>Minimum withdrawal: USD 30</p>
+        <p>
+          Withdrawals will be directly transferred to your brand's username
+          account with a 10x turnover requirement.
+        </p>
+      </div>
     </main>
 
-    <!-- Footer -->
     <footer class="bg-gray-800 text-white w-full py-4">
       <div class="container mx-auto text-center">
         <p>&copy; 2024 Lucky Draw. All rights reserved.</p>
       </div>
     </footer>
-
-    <script>
-      function toggleMenu() {
-        var menu = document.getElementById("mobileMenu");
-        menu.classList.toggle("hidden");
-      }
-    </script>
   </body>
 </html>
