@@ -56,11 +56,6 @@ const guessSchema = new mongoose.Schema({
 
 const Guess = mongoose.model("Guess", guessSchema);
 
-// Timer and event management
-let endTime = Date.now() + 300000; // Initialize end time (5 minutes from server start)
-let eventNumber = 1;
-let luckyNum = Math.floor(100 + Math.random() * 900); // Initialize lucky number
-
 // Handle form submissions
 app.post("/submit-guess", async (req, res) => {
   try {
@@ -85,7 +80,7 @@ app.get("/winner-history", async (req, res) => {
 // Route to fetch submission numbers
 app.get("/submission-numbers", async (req, res) => {
   try {
-    const numbers = await Guess.find().select("number eventNumber username"); // Fetching both 'number' and 'eventNumber'
+    const numbers = await Guess.find().select("number eventNumber username");
     res.json(numbers);
   } catch (error) {
     console.error("Error fetching submission numbers:", error);
@@ -123,10 +118,9 @@ app.get("/event", async (req, res) => {
   }
 });
 
+// Route to fetch the event number
 app.get("/getevntnmr", async (req, res) => {
   try {
-    // Find the document with the highest 'nmbr'
-    // i need that full object which has that highst num
     const lastEvent = await Eventnm.findOne().sort({ nmbr: -1 });
     if (!lastEvent) {
       return res.status(404).json({ error: "No events found" });
@@ -138,22 +132,7 @@ app.get("/getevntnmr", async (req, res) => {
   }
 });
 
-// Route to fetch remaining time
-app.get("/api/remaining-time", (req, res) => {
-  const currentTime = Date.now();
-  const remainingTime = Math.max(0, endTime - currentTime); // Ensure remaining time is non-negative
-  res.json({ remainingTime, eventNumber, luckyNum });
-});
-
-// Reset the timer and generate a new lucky number
-app.post("/api/reset-timer", (req, res) => {
-  endTime = Date.now() + 300000; // Reset the timer to 5 minutes
-  luckyNum = Math.floor(100 + Math.random() * 900); // Generate a new lucky number
-  eventNumber++; // Increment the event number
-  res.json({ message: "Timer reset", eventNumber, luckyNum });
-});
-
-// create a post route for add number in Eventnm
+// Create a post route to add number in Eventnm
 app.post("/addnumber", async (req, res) => {
   try {
     const { nmbr, luck } = req.body;
@@ -166,9 +145,9 @@ app.post("/addnumber", async (req, res) => {
   }
 });
 
+// Add a winner to the database
 app.post("/add-winner", async (req, res) => {
   try {
-    //console.log("Request body:", req.body); // Debugging log to check incoming data
     const newWinner = new WinnerHistory(req.body);
     await newWinner.save();
     res.status(201).json({ message: "Winner added successfully!", newWinner });
@@ -178,23 +157,42 @@ app.post("/add-winner", async (req, res) => {
   }
 });
 
+// Route to fetch submissions for a specific event
 app.get("/event/:eventID/submissions", async (req, res) => {
   const { eventID } = req.params;
   try {
     const submissions = await Guess.find({ eventNumber: eventID });
-
     if (!submissions) {
       return res
         .status(404)
         .json({ error: "No submissions found for this event ID" });
-    } else {
-      res.json(submissions);
     }
-    //console.log(submissions);
+    res.json(submissions);
   } catch (error) {
     console.error("Error fetching submissions for event:", error);
     res.status(500).json({ error: "Failed to fetch submissions for event" });
   }
+});
+
+// Timer state
+let timerEndTime = Date.now() + 300000; // Initial 5 minutes
+
+// Route to fetch remaining time
+app.get("/api/remaining-time", (req, res) => {
+  const remainingTime = Math.max(
+    0,
+    Math.floor((timerEndTime - Date.now()) / 1000)
+  );
+  const eventNumber = evnt_nmbr; // Assume evnt_nmbr is globally available
+  const luckyNum = Math.floor(100 + Math.random() * 900); // Generate a lucky number
+  res.json({ remainingTime, eventNumber, luckyNum });
+});
+
+// Route to reset the timer
+app.post("/api/reset-timer", (req, res) => {
+  timerEndTime = Date.now() + 300000; // Reset to 5 minutes
+  const luckyNum = Math.floor(100 + Math.random() * 900); // Generate a new lucky number
+  res.json({ luckyNum });
 });
 
 const PORT = process.env.PORT || 5000;
