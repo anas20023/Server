@@ -24,6 +24,7 @@ mongoose
     console.error("MongoDB connection error:", error);
     process.exit(1); // Exit process if unable to connect to MongoDB
   });
+
 const eventSchema = new mongoose.Schema(
   {
     nmbr: {
@@ -40,6 +41,7 @@ const eventSchema = new mongoose.Schema(
 ); // Specify collection name explicitly
 
 const Eventnm = mongoose.model("eventnm", eventSchema);
+
 // Serve static files from the 'public' directory
 app.use(express.static(path.join(__dirname, "public")));
 app.use(bodyParser.json()); // Middleware to parse JSON bodies
@@ -54,6 +56,11 @@ const guessSchema = new mongoose.Schema({
 
 const Guess = mongoose.model("Guess", guessSchema);
 
+// Timer and event management
+let endTime = Date.now() + 300000; // Initialize end time (5 minutes from server start)
+let eventNumber = 1;
+let luckyNum = Math.floor(100 + Math.random() * 900); // Initialize lucky number
+
 // Handle form submissions
 app.post("/submit-guess", async (req, res) => {
   try {
@@ -64,6 +71,7 @@ app.post("/submit-guess", async (req, res) => {
     res.status(400).json({ error: "Error submitting guess" });
   }
 });
+
 // Route to fetch winner history
 app.get("/winner-history", async (req, res) => {
   try {
@@ -73,6 +81,7 @@ app.get("/winner-history", async (req, res) => {
     res.status(500).json({ message: "Failed to fetch winner history", error });
   }
 });
+
 // Route to fetch submission numbers
 app.get("/submission-numbers", async (req, res) => {
   try {
@@ -85,6 +94,7 @@ app.get("/submission-numbers", async (req, res) => {
       .json({ message: "Failed to fetch submission numbers", error });
   }
 });
+
 // Route to fetch previous submissions
 app.get("/previous-submissions", async (req, res) => {
   try {
@@ -97,6 +107,7 @@ app.get("/previous-submissions", async (req, res) => {
       .json({ message: "Failed to fetch previous submissions", error });
   }
 });
+
 // Route to fetch event details
 app.get("/event", async (req, res) => {
   try {
@@ -111,6 +122,7 @@ app.get("/event", async (req, res) => {
     res.status(500).json({ message: "Failed to fetch event", error });
   }
 });
+
 app.get("/getevntnmr", async (req, res) => {
   try {
     // Find the document with the highest 'nmbr'
@@ -125,6 +137,22 @@ app.get("/getevntnmr", async (req, res) => {
     res.status(500).json({ error: "Internal server error" });
   }
 });
+
+// Route to fetch remaining time
+app.get("/api/remaining-time", (req, res) => {
+  const currentTime = Date.now();
+  const remainingTime = Math.max(0, endTime - currentTime); // Ensure remaining time is non-negative
+  res.json({ remainingTime, eventNumber, luckyNum });
+});
+
+// Reset the timer and generate a new lucky number
+app.post("/api/reset-timer", (req, res) => {
+  endTime = Date.now() + 300000; // Reset the timer to 5 minutes
+  luckyNum = Math.floor(100 + Math.random() * 900); // Generate a new lucky number
+  eventNumber++; // Increment the event number
+  res.json({ message: "Timer reset", eventNumber, luckyNum });
+});
+
 // create a post route for add number in Eventnm
 app.post("/addnumber", async (req, res) => {
   try {
@@ -137,6 +165,7 @@ app.post("/addnumber", async (req, res) => {
     res.status(500).json({ error: "Internal server error" });
   }
 });
+
 app.post("/add-winner", async (req, res) => {
   try {
     //console.log("Request body:", req.body); // Debugging log to check incoming data
@@ -148,6 +177,7 @@ app.post("/add-winner", async (req, res) => {
     res.status(500).json({ message: "Failed to add winner", error });
   }
 });
+
 app.get("/event/:eventID/submissions", async (req, res) => {
   const { eventID } = req.params;
   try {
@@ -166,6 +196,7 @@ app.get("/event/:eventID/submissions", async (req, res) => {
     res.status(500).json({ error: "Failed to fetch submissions for event" });
   }
 });
+
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
