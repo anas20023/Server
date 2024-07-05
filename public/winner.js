@@ -1,41 +1,29 @@
 document.addEventListener("DOMContentLoaded", async () => {
   try {
-    // Fetch winner histories from backend
     const response = await fetch("/winner-history");
     if (!response.ok) {
       throw new Error(`HTTP error! Status: ${response.status}`);
     }
 
     const winnerHistories = await response.json();
-    //console.log(winnerHistories);
-
-    // Display winner histories
     const winnerHistoriesContainer = document.getElementById(
       "winnerHistoriesContainer"
     );
-
-    // Clear existing content if needed
     winnerHistoriesContainer.innerHTML = "";
-    // Iterate over each history object and create HTML elements dynamically
+
     winnerHistories.forEach((history) => {
       let usrnm = history.users;
-      usrnm.toString();
-      // logic for modify the username. ex : user123 to u****23 must show some first and last letters
       let newUsrnm;
+      let winnerprize = 0;
       if (usrnm !== "no winner") {
-        newUsrnm =
-          usrnm.substring(0, 1) +
-          "***" +
-          usrnm.substring(usrnm.length - 2, usrnm.length);
+        newUsrnm = "1";
+        winnerprize = 100;
       } else {
-        newUsrnm = usrnm;
+        newUsrnm = "0";
       }
-      // should show 1st and last 1/2 letter
-      //console.log(newUsrnm);
       let datestr = history.date;
-      // i need only date/month/year
       let newDatestr = datestr.substring(0, 10);
-      // console.log(history);
+
       const historyItem = document.createElement("div");
       historyItem.classList.add(
         "history-item",
@@ -47,15 +35,39 @@ document.addEventListener("DOMContentLoaded", async () => {
         "border-blue-500"
       );
       historyItem.innerHTML = `
-    <a href="event-detail.html" class="flex flex-col text-lg font-medium text-gray-700 hover:text-gray-900">
-      <span>Date: ${newDatestr}</span>
-      <span class="text-sm">Event ID : ${history.evnt}</span>
-    </a>
-    <div class="flex justify-between mt-2 text-blue-600">
-      <span>Winning Number: ${history.number}</span>
-      <span>Winner(s): ${newUsrnm}</span>
-    </div>
-  `;
+        <div class="flex flex-row text-lg justify-between cursor-pointer items-center font-medium text-gray-700 hover:text-gray-900">
+          <div class="flex flex-col justify-evenly">
+            <p>Date: ${newDatestr}</p>
+            <p class="text-sm">Event ID: ${history.evnt}</p>
+          </div>
+          <div class="flex flex-col justify-evenly items-end text-2xl text-blue-600 lg:text-4xl font-bold">
+            ${history.number}
+            <span class="text-xs lg:text-sm text-gray-800 font-medium">Winning Number</span>
+          </div>
+        </div>
+        <div class="flex justify-between mt-2 text-blue-600">
+          <span>Payout Prize: ${winnerprize}</span>
+          <span>Winner(s): ${newUsrnm}</span>
+        </div>
+      `;
+
+      historyItem.addEventListener("click", () => {
+        if (newUsrnm === "0") {
+          newUsrnm = "no winner";
+        } else {
+          newUsrnm = usrnm;
+        }
+        const urlParams = new URLSearchParams({
+          date: newDatestr,
+          number: history.number,
+          winner: newUsrnm,
+          prize: winnerprize,
+          eventID: history.evnt,
+        }).toString();
+
+        window.location.href = `event-detail.html?${urlParams}`;
+      });
+
       winnerHistoriesContainer.appendChild(historyItem);
     });
   } catch (error) {

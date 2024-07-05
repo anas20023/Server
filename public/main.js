@@ -61,17 +61,24 @@ async function fetchSubmissionNumbers() {
 
     const submissionsContainer = document.getElementById("submissions");
     submissionsContainer.innerHTML = "";
-    // console.log(numbers)
+    //console.log(numbers);
     //console.log(evnt_nmbr);
     numbers.forEach((submission) => {
       if (submission.eventNumber === evnt_nmbr + 1) {
         const submissionElement = document.createElement("div");
-        submissionElement.classList.add("submission-number");
+        submissionElement.classList.add(
+          "submission-number",
+          "relative",
+          "group"
+        );
         submissionElement.innerHTML = `
-        <div class="p-2 bg-blue-600 text-white text-center rounded-sm font-medium">
-          ${submission.number}
-        </div>
-      `;
+          <div class="p-2 bg-blue-600 text-white text-center rounded-sm font-medium">
+            ${submission.number}
+          </div>
+          <div class="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 hidden group-hover:block p-2 bg-white text-gray-700 text-sm rounded-sm z-10">
+            ${submission.username}
+          </div>
+        `;
         submissionsContainer.appendChild(submissionElement);
       }
     });

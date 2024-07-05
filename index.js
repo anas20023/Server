@@ -2,7 +2,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const path = require("path");
-const WinnerHistory = require("./dbscm.js");
+const WinnerHistory = require("./models/dbscm.js");
 const Event = require("./models/Event.js");
 
 // Load environment variables
@@ -76,7 +76,7 @@ app.get("/winner-history", async (req, res) => {
 // Route to fetch submission numbers
 app.get("/submission-numbers", async (req, res) => {
   try {
-    const numbers = await Guess.find().select("number eventNumber"); // Fetching both 'number' and 'eventNumber'
+    const numbers = await Guess.find().select("number eventNumber username"); // Fetching both 'number' and 'eventNumber'
     res.json(numbers);
   } catch (error) {
     console.error("Error fetching submission numbers:", error);
@@ -146,6 +146,24 @@ app.post("/add-winner", async (req, res) => {
   } catch (error) {
     console.error("Error adding winner:", error);
     res.status(500).json({ message: "Failed to add winner", error });
+  }
+});
+app.get("/event/:eventID/submissions", async (req, res) => {
+  const { eventID } = req.params;
+  try {
+    const submissions = await Guess.find({ eventNumber: eventID });
+
+    if (!submissions) {
+      return res
+        .status(404)
+        .json({ error: "No submissions found for this event ID" });
+    } else {
+      res.json(submissions);
+    }
+    //console.log(submissions);
+  } catch (error) {
+    console.error("Error fetching submissions for event:", error);
+    res.status(500).json({ error: "Failed to fetch submissions for event" });
   }
 });
 const PORT = process.env.PORT || 5000;

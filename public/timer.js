@@ -3,45 +3,45 @@ const rslt_head = document.getElementById("rslt_head");
 const countdownElement = document.getElementById("cnt_dwn");
 const lckynum = document.getElementById("lucky-number");
 document.addEventListener("DOMContentLoaded", function () {
+  eventnmbr();
   // Function to start a 5-minute countdown
   function startFiveMinuteCountdown() {
-    eventnmbr();
-    // a random number of 3/4 digits will genarate and save in a variable
-    // and display it in the lucky number section
-    // number is genarated must be 3 digits
-    // i need gauranted 3 digits number from random
-    let luckyNum = parseInt(
-      Math.floor(Math.random() * 1000)
-        .toString()
-        .padStart(3, "0")
-    );
-    //let luckyNum = 456;
-    //lckynum.innerHTML = luckyNum;
-    // Retrieve the remaining time from localStorage
-    let timer = parseInt(localStorage.getItem("remainingTime")) || 300; // 5 minutes in seconds
-    // Display initial countdown
-    updateCountdownDisplay(timer);
+    // A random 3-digit number is generated and saved in a variable
+    let luckyNum = Math.floor(100 + Math.random() * 900);
+
+    // Retrieve the target end time from localStorage, or set it to 5 minutes from now
+    let targetEndTime =
+      parseInt(localStorage.getItem("targetEndTime")) || Date.now() + 300000; // 5 minutes in milliseconds
 
     const intervalId = setInterval(() => {
-      timer--;
+      const currentTime = Date.now();
+      let remainingTime = Math.floor((targetEndTime - currentTime) / 1000);
 
-      // Save the remaining time to localStorage
-      localStorage.setItem("remainingTime", timer);
+      // Save the target end time to localStorage
+      localStorage.setItem("targetEndTime", targetEndTime);
+
       // Update countdown display
-      updateCountdownDisplay(timer);
+      updateCountdownDisplay(remainingTime);
 
       // Check if countdown has reached zero
-      if (timer <= 0) {
+      if (remainingTime <= 0) {
         clearInterval(intervalId); // Stop the interval
-        localStorage.removeItem("remainingTime"); // Clear the saved timer
+        localStorage.removeItem("targetEndTime"); // Clear the saved target end time
         evnt_nmbr++;
         addEventNumber(evnt_nmbr, luckyNum);
         addWinner(luckyNum, evnt_nmbr);
-        // have to reload the window
+        // Start the next countdown
         startFiveMinuteCountdown();
       }
     }, 1000);
+
+    // Display initial countdown
+    const initialRemainingTime = Math.floor(
+      (targetEndTime - Date.now()) / 1000
+    );
+    updateCountdownDisplay(initialRemainingTime);
   }
+
   // Function to update the countdown display
   function updateCountdownDisplay(timeInSeconds) {
     const minutes = Math.floor(timeInSeconds / 60);

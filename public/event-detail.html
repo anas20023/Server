@@ -1,82 +1,84 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Past Event Detail</title>
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-  <style>
-    /* Custom styles */
-    html,
-    body {
-      height: 100%;
-    }
-    .wrapper {
-      display: flex;
-      flex-direction: column;
-      min-height: 100vh;
-    }
-    main {
-      flex: 1;
-    }
-  </style>
-</head>
-<body class="bg-gray-100">
-<div class="wrapper">
-  <header class="bg-gray-800 text-white">
-    <div class="container mx-auto flex justify-between items-center py-4 px-6 max-w-6xl">
-      <div class="text-3xl font-bold">Lucky Draw</div>
-      <nav>
-        <ul class="hidden md:flex space-x-6">
-          <li><a href="./index.html" class="hover:text-gray-300">Home</a></li>
-          <li><a href="./winner-history.html" class="hover:text-gray-300">History</a></li>
-        </ul>
-        <button class="md:hidden flex items-center px-3 py-2 border rounded text-white border-white" onclick="toggleMenu()">
-          <svg class="fill-current h-3 w-3" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><title>Menu</title><path d="M0 3h20v2H0zM0 9h20v2H0zM0 15h20v2H0z"/></svg>
-        </button>
-      </nav>
-    </div>
-    <div id="mobileMenu" class="hidden md:hidden">
-      <ul class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-        <li><a href="./index.html" class="block text-white hover:bg-gray-700 px-3 py-2 rounded-md text-base font-medium">Home</a></li>
-        <li><a href="./winner-history.html" class="block text-white hover:bg-gray-700 px-3 py-2 rounded-md text-base font-medium">History</a></li>
-      </ul>
-    </div>
-  </header>
-  <!-- Main Content -->
-  <main class="container mx-auto mt-4 flex-1 px-4 max-w-6xl">
-    <h2  class="text-center text-3xl font-bold mb-4">Event Details</h2>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Event Detail</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+      integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer" />
+    <link href="./dist/output.css" rel="stylesheet" />
+    <style>
+      /* Custom styles */
+      html,
+      body {
+        height: 100%;
+      }
+      .wrapper {
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+      }
+      main {
+        flex: 1;
+      }
+    </style>
+  </head>
+  <body class="bg-gray-100">
+    <div class="wrapper">
+      <header class="bg-gray-800 text-white">
+        <div
+          class="container mx-auto flex justify-between items-center py-4 px-6 max-w-6xl">
+          <div class="text-3xl font-bold">Lucky Draw</div>
+          <nav>
+            <ul class="flex space-x-6">
+              <li>
+                <a
+                  class="text-gray-300 hover:text-white text-sm lg:text-base"
+                  href="./winner-history.html"
+                  ><i class="fa-solid fa-arrow-left mr-2 mt-1"></i>Back</a
+                >
+              </li>
+            </ul>
+          </nav>
+        </div>
+      </header>
+      <!-- Main Content -->
+      <main class="container mx-auto mt-4 flex-1 px-4 max-w-6xl">
+        <h2 class="text-center text-3xl font-bold mb-4">Event Details</h2>
+        <!-- Event Details Card -->
+        <div class="bg-white shadow-md rounded-lg p-6 mb-4">
+          <h4 id="event-date" class="text-xl font-bold mb-2"></h4>
+          <p id="winning-number"><strong></strong></p>
+          <p id="winner"><strong></strong></p>
+          <p id="prize"><strong></strong></p>
+          <p id="event-id"><strong></strong></p>
+        </div>
 
-    <!-- Event Details Card -->
-    <div class="bg-white shadow-md rounded-lg p-6 mb-4">
-      <h4 id="event-date" class="text-xl font-bold mb-2">Event Date:</h4>
-      <p id="winning-number"><strong>Winning Number:</strong></p>
-      <p id="winner"><strong>Winner:</strong></p>
-      <p id="prize"><strong>Prize:</strong></p>
-      <p id="event-id"><strong>Event ID:</strong></p>
-      <p id="description" class="mt-2"><strong>Description:</strong></p>
+        <!-- User Submissions -->
+        <div class="bg-white shadow-md rounded-lg p-6 mb-4">
+          <h4 class="text-xl font-bold mb-2">User Submissions</h4>
+          <h4 id="nosbmt"></h4>
+          <div
+            id="user-submissions"
+            class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-8 gap-4">
+            <!-- User submissions will be dynamically added here -->
+          </div>
+        </div>
+      </main>
+
+      <!-- Footer -->
+      <footer class="bg-gray-800 text-white py-8 mt-auto">
+        <div class="container mx-auto text-center">
+          <p>&copy; 2024 Lucky Draw. All rights reserved.</p>
+        </div>
+      </footer>
     </div>
 
-    <!-- User Submissions -->
-    <div class="bg-white shadow-md rounded-lg p-6 mb-4">
-      <h4 class="text-xl font-bold mb-2">User Submissions</h4>
-      <div id="user-submissions" class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-8 gap-4">
-        <!-- User submissions will be dynamically added here -->
-      </div>
-    </div>
-  </main>
-
-  <!-- Footer -->
-  <footer class="bg-gray-800 text-white py-8 mt-auto">
-    <div class="container mx-auto text-center">
-      <p>&copy; 2024 Lucky Draw. All rights reserved.</p>
-    </div>
-  </footer>
-</div>
-
-<!-- Scripts -->
- <script src="./eventHandle.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/alpinejs@3.7.2/dist/alpine.min.js" defer></script>
-</body>
+    <!-- Scripts -->
+    <script src="eventHandle.js"></script>
+  </body>
 </html>
