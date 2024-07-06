@@ -6,19 +6,30 @@ document.addEventListener("DOMContentLoaded", async () => {
   const prize = urlParams.get("prize");
   const eventID = parseInt(urlParams.get("eventID"));
 
-  document.getElementById("event-date").innerText = `Date: ${eventDate}`;
-  document.getElementById(
-    "winning-number"
-  ).innerHTML = `<strong>Winning Number:</strong> ${winningNumber}`;
-  document.getElementById(
-    "winner"
-  ).innerHTML = `<strong>Winner:</strong> ${winner}`;
-  document.getElementById(
-    "prize"
-  ).innerHTML = `<strong>Prize:</strong> ${prize}`;
-  document.getElementById(
-    "event-id"
-  ).innerHTML = `<strong>Event ID:</strong> ${eventID}`;
+  document.getElementById("event-date").innerHTML = `
+  <div class="text-2xl font-bold">${eventDate}</div>
+  <div class="lg:block text-sm text-sky-600">Date</div>
+`;
+
+  document.getElementById("winning-number").innerHTML = `
+  <div class="text-lg font-bold">${winningNumber}</div>
+  <div class="lg:block text-sm text-sky-600">Winning Number</div>
+`;
+
+  document.getElementById("winner").innerHTML = `
+  <div class="text-lg font-bold">${winner}</div>
+  <div class="lg:block text-sm text-sky-600">Winner(s)</div>
+`;
+
+  document.getElementById("prize").innerHTML = `
+  <div class="text-lg font-bold">${prize}</div>
+  <div class="lg:block text-sm text-sky-600">Prize</div>
+`;
+
+  document.getElementById("event-id").innerHTML = `
+  <div class="text-4xl font-bold">${eventID}</div>
+  <div class="lg:block text-sm">Event ID</div>
+`;
 
   try {
     const response = await fetch(`/event/${eventID}/submissions`);
@@ -37,11 +48,13 @@ document.addEventListener("DOMContentLoaded", async () => {
         .getElementById("nosbmt")
         .classList.add(
           "inline-block",
-          "text-lg",
+          "lg:text-lg",
           "font-medium",
           "bg-gray-800",
           "text-white",
-          "p-3",
+          "lg:p-3",
+          "p-2.5",
+          "text-sm",
           "rounded,",
           "mb-2"
         );

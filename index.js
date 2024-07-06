@@ -3,7 +3,6 @@ const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const path = require("path");
 const WinnerHistory = require("./models/dbscm.js");
-const Event = require("./models/Event.js");
 const CountdownState = require("./models/countdown.js");
 
 // Load environment variables
@@ -103,20 +102,6 @@ app.get("/previous-submissions", async (req, res) => {
   }
 });
 
-// Route to fetch event details
-app.get("/event", async (req, res) => {
-  try {
-    const event = await Event.find();
-    if (!event) {
-      console.log("Event not found");
-      return res.status(404).json({ message: "Event not found" });
-    }
-    res.json(event);
-  } catch (error) {
-    console.error("Error fetching event:", error);
-    res.status(500).json({ message: "Failed to fetch event", error });
-  }
-});
 
 // Route to fetch the event number
 app.get("/getevntnmr", async (req, res) => {
