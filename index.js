@@ -4,6 +4,7 @@ const bodyParser = require("body-parser");
 const path = require("path");
 const WinnerHistory = require("./models/dbscm.js");
 const Event = require("./models/Event.js");
+const CountdownState = require("./models/countdown.js");
 
 // Load environment variables
 require("dotenv").config();
@@ -25,6 +26,19 @@ mongoose
     process.exit(1); // Exit process if unable to connect to MongoDB
   });
 
+// Serve static files from the 'public' directory
+app.use(express.static(path.join(__dirname, "public")));
+app.use(bodyParser.json()); // Middleware to parse JSON bodies
+
+// Define a schema and model for the guesses
+const guessSchema = new mongoose.Schema({
+  number: Number,
+  eventNumber: Number,
+  brand: String,
+  username: String,
+});
+
+const Guess = mongoose.model("Guess", guessSchema);
 const eventSchema = new mongoose.Schema(
   {
     nmbr: {
@@ -41,20 +55,6 @@ const eventSchema = new mongoose.Schema(
 ); // Specify collection name explicitly
 
 const Eventnm = mongoose.model("eventnm", eventSchema);
-
-// Serve static files from the 'public' directory
-app.use(express.static(path.join(__dirname, "public")));
-app.use(bodyParser.json()); // Middleware to parse JSON bodies
-
-// Define a schema and model for the guesses
-const guessSchema = new mongoose.Schema({
-  number: Number,
-  eventNumber: Number,
-  brand: String,
-  username: String,
-});
-
-const Guess = mongoose.model("Guess", guessSchema);
 
 // Handle form submissions
 app.post("/submit-guess", async (req, res) => {
@@ -136,7 +136,11 @@ app.get("/getevntnmr", async (req, res) => {
 app.post("/addnumber", async (req, res) => {
   try {
     const { nmbr, luck } = req.body;
-    const newEvent = new Eventnm({ nmbr, luck });
+    const newEvent = new Eventnm({
+      nmbr,
+      luck,
+      endTime: new Date(Date.now() + 300000),
+    }); // Set endTime to 5 minutes from now
     await newEvent.save();
     res.json({ message: "Event number added successfully" });
   } catch (error) {
@@ -174,27 +178,54 @@ app.get("/event/:eventID/submissions", async (req, res) => {
   }
 });
 
-// Timer state
-let timerEndTime = Date.now() + 300000; // Initial 5 minutes
-
 // Route to fetch remaining time
-app.get("/api/remaining-time", (req, res) => {
-  const remainingTime = Math.max(
-    0,
-    Math.floor((timerEndTime - Date.now()) / 1000)
-  );
-  const eventNumber = evnt_nmbr; // Assume evnt_nmbr is globally available
-  const luckyNum = Math.floor(100 + Math.random() * 900); // Generate a lucky number
-  res.json({ remainingTime, eventNumber, luckyNum });
+app.get("/api/remaining-time", async (req, res) => {
+  try {
+    const lastEvent = await CountdownState.findOne().sort({ nmbr: -1 });
+    if (!lastEvent) {
+      return res.status(404).json({ error: "No events found" });
+    }
+    const remainingTime = Math.max(
+      0,
+      Math.floor((new Date(lastEvent.endTime) - Date.now()) / 1000)
+    );
+    res.json({ remainingTime });
+  } catch (error) {
+    console.error("Error fetching remaining time:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
 });
 
 // Route to reset the timer
-app.post("/api/reset-timer", (req, res) => {
-  timerEndTime = Date.now() + 300000; // Reset to 5 minutes
-  const luckyNum = Math.floor(100 + Math.random() * 900); // Generate a new lucky number
-  res.json({ luckyNum });
+app.post("/api/reset-timer", async (req, res) => {
+  try {
+    const lastEvent = await CountdownState.findOne().sort({ nmbr: -1 });
+    if (!lastEvent) {
+      return res.status(404).json({ error: "No events found" });
+    }
+    lastEvent.endTime = new Date(Date.now() + 300000); // Reset to 5 minutes from now
+    await lastEvent.save();
+    res.json({
+      success: true,
+      luckyNum: Math.floor(100 + Math.random() * 900),
+    }); // Return a new lucky number
+  } catch (error) {
+    console.error("Error resetting timer:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
 });
-
+app.get("/getevntnmr", async (req, res) => {
+  try {
+    const lastEvent = await Eventnm.findOne().sort({ nmbr: -1 });
+    if (!lastEvent) {
+      return res.status(404).json({ error: "No events found" });
+    }
+    res.json(lastEvent);
+  } catch (error) {
+    console.error("Error fetching last event number:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);

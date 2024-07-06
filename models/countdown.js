@@ -1,16 +1,11 @@
 // models/CountdownState.js
 
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 const CountdownStateSchema = new mongoose.Schema({
-  remainingTime: {
-    type: Number,
-    default: 300, // 5 minutes in seconds
-  },
-  eventNumber: {
-    type: Number,
-    default: 0,
-  },
+  nmbr: { type: Number, required: true },
+  luck: { type: Number, required: true },
+  endTime: { type: Date, required: true },
 });
 
-module.exports = mongoose.model('CountdownState', CountdownStateSchema);
+module.exports = mongoose.model("CountdownState", CountdownStateSchema);

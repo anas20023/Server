@@ -5,43 +5,52 @@ const lckynum = document.getElementById("lucky-number");
 
 document.addEventListener("DOMContentLoaded", function () {
   eventnmbr();
+  //startCountdown();
+  // Function to start the countdown
+  function startCountdown() {
+    const intervalId = setInterval(async () => {
+      try {
+        const response = await fetch("/api/remaining-time");
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        const data = await response.json();
+        const remainingTime = data.remainingTime;
 
-  // Function to start a countdown with the given remaining time
-  function startCountdown(remainingTime, initialLuckyNum) {
-    let luckyNum = initialLuckyNum;
+        // Update countdown display
+        updateCountdownDisplay(remainingTime);
 
-    const intervalId = setInterval(() => {
-      // Decrease remaining time by 1 second
-      remainingTime--;
-
-      // Update countdown display
-      updateCountdownDisplay(remainingTime);
-
-      // Check if countdown has reached zero
-      if (remainingTime <= 0) {
-        clearInterval(intervalId); // Stop the interval
-        evnt_nmbr++;
-        addEventNumber(evnt_nmbr, luckyNum);
-        addWinner(luckyNum, evnt_nmbr);
-        // Reset the timer on the server and start the next countdown
-        resetTimerOnServer().then((newEvent) => {
-          startCountdown(newEvent.remainingTime, newEvent.luckyNum);
-        });
+        // Check if countdown has reached zero
+        if (remainingTime <= 0) {
+          clearInterval(intervalId); // Stop the interval
+          evnt_nmbr++;
+          const luckyNumResponse = await fetch("/api/reset-timer", {
+            method: "POST",
+          });
+          if (!luckyNumResponse.ok) {
+            throw new Error("Failed to reset timer");
+          }
+          const luckyNumData = await luckyNumResponse.json();
+          console.log(luckyNumData);
+          const luckyNum = luckyNumData.luckyNum;
+          addWinner(luckyNumData.luckyNum, evnt_nmbr);
+          addEventNumber(evnt_nmbr, luckyNum);
+          // Start the next countdown
+          eventnmbr();
+          startCountdown();
+          // reload the window
+        }
+      } catch (error) {
+        console.error("Error:", error);
       }
     }, 1000);
-
-    // Display initial countdown
-    updateCountdownDisplay(remainingTime);
   }
-
   // Function to update the countdown display
   function updateCountdownDisplay(timeInSeconds) {
     const minutes = Math.floor(timeInSeconds / 60);
     const seconds = timeInSeconds % 60;
-    const formattedTime = `${minutes} min ${seconds
-      .toString()
-      .padStart(2, "0")} sec`;
-    countdownElement.textContent = `Next draw (Event: ${
+    const formattedTime = `${minutes} min ${seconds} sec`;
+    countdownElement.textContent = `Next draw (Event : ${
       evnt_nmbr + 1
     }) in ${formattedTime}`;
   }
@@ -103,66 +112,22 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 
-  // Function to reset the timer on the server
-  async function resetTimerOnServer() {
+  // Fetch event number and start the countdown
+  async function eventnmbr() {
     try {
-      const response = await fetch("/api/reset-timer", {
-        method: "POST",
-      });
+      const response = await fetch("/getevntnmr");
       if (!response.ok) {
-        throw new Error("Failed to reset timer");
+        throw new Error("Failed to fetch event number");
       }
       const data = await response.json();
-      return { remainingTime: 300, luckyNum: data.luckyNum }; // 5 minutes in seconds
+      evnt_nmbr = data.nmbr;
+      rslt_head.innerText = `Previous Submission (Event:${data.nmbr})`;
+      lckynum.innerText = data.luck;
     } catch (error) {
-      console.error("Error resetting timer:", error);
-      return {
-        remainingTime: 300,
-        luckyNum: Math.floor(100 + Math.random() * 900),
-      }; // Fallback values
+      console.error("Error:", error);
     }
   }
-
-  // Function to fetch the remaining time from the server
-  async function fetchRemainingTime() {
-    try {
-      const response = await fetch("/api/remaining-time");
-      if (!response.ok) {
-        throw new Error("Failed to fetch remaining time");
-      }
-      const data = await response.json();
-      return data;
-    } catch (error) {
-      console.error("Error fetching remaining time:", error);
-      return {
-        remainingTime: 300,
-        eventNumber: 1,
-        luckyNum: Math.floor(100 + Math.random() * 900),
-      }; // Fallback values
-    }
-  }
-
-  // Start the countdown with the remaining time from the server
-  fetchRemainingTime().then((data) => {
-    evnt_nmbr = data.eventNumber;
-    startCountdown(data.remainingTime, data.luckyNum);
-  });
 });
-
-// Function to fetch event number and update the page
-const eventnmbr = async () => {
-  const res = await fetch("/getevntnmr");
-  const data = await res.json();
-  evnt_nmbr = data.nmbr;
-  rslt_head.innerHTML = `Previous Result (Event: ${evnt_nmbr})`;
-  if (evnt_nmbr === 0) {
-    lckynum.innerHTML = "NULL";
-  } else {
-    lckynum.innerHTML = data.luck;
-  }
-};
-
-// Function to add event number to the database
 const addEventNumber = async (number, luck) => {
   try {
     const response = await fetch("/addnumber", {
@@ -185,5 +150,5 @@ const addEventNumber = async (number, luck) => {
     // Handle error scenario here, if needed
   }
 };
-
 export { evnt_nmbr };
+// on window reload event
