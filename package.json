@@ -20,6 +20,7 @@
     "express": "^4.19.2",
     "express-session": "^1.18.0",
     "mongoose": "^8.4.4",
-    "nodemon": "^3.1.4"
+    "nodemon": "^3.1.4",
+    "ws": "^8.18.0"
   }
 }

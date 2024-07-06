@@ -36,8 +36,8 @@ document.addEventListener("DOMContentLoaded", function () {
           addWinner(luckyNumData.luckyNum, evnt_nmbr);
           addEventNumber(evnt_nmbr, luckyNum);
           // Start the next countdown
-          eventnmbr();
           startCountdown();
+          eventnmbr();
           // reload the window
         }
       } catch (error) {

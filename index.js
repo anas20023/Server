@@ -4,13 +4,15 @@ const bodyParser = require("body-parser");
 const path = require("path");
 const WinnerHistory = require("./models/dbscm.js");
 const CountdownState = require("./models/countdown.js");
-const axios = require("axios");
-// Load environment variables
 require("dotenv").config();
+const axios = require("axios");
+const WebSocket = require(`ws`);
+const PORT = process.env.PORT || 5000;
+const wss = new WebSocket.Server({ port: PORT + 1 });
+// Load environment variables
 const url = process.env.SITE;
 
 const app = express();
-setInterval(pingWebsite, 1000);
 // Connect to MongoDB
 mongoose
   .connect(process.env.DBSTR, {
@@ -183,6 +185,7 @@ app.get("/api/remaining-time", async (req, res) => {
       Math.floor((new Date(lastEvent.endTime) - Date.now()) / 1000)
     );
     res.json({ remainingTime });
+    pingWebsite();
   } catch (error) {
     console.error("Error fetching remaining time:", error);
     res.status(500).json({ error: "Internal server error" });
@@ -202,6 +205,7 @@ app.post("/api/reset-timer", async (req, res) => {
       success: true,
       luckyNum: Math.floor(100 + Math.random() * 900),
     }); // Return a new lucky number
+    pingWebsite();
   } catch (error) {
     console.error("Error resetting timer:", error);
     res.status(500).json({ error: "Internal server error" });
@@ -219,7 +223,18 @@ app.get("/getevntnmr", async (req, res) => {
     res.status(500).json({ error: "Internal server error" });
   }
 });
-const PORT = process.env.PORT || 5000;
+// websocket
+function broadcastReload() {
+  wss.clients.forEach((client) => {
+    if (client.readyState === WebSocket.OPEN) {
+      client.send("reload");
+    }
+  });
+}
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
+wss.on("connection", (ws) => {
+  console.log("Client connected");
+});
+setInterval(broadcastReload, 5 * 60 * 1000);
