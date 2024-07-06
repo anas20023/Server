@@ -4,12 +4,13 @@ const bodyParser = require("body-parser");
 const path = require("path");
 const WinnerHistory = require("./models/dbscm.js");
 const CountdownState = require("./models/countdown.js");
-
+const axios = require("axios");
 // Load environment variables
 require("dotenv").config();
+const url = process.env.SITE;
 
 const app = express();
-
+setInterval(pingWebsite, 1000);
 // Connect to MongoDB
 mongoose
   .connect(process.env.DBSTR, {
@@ -24,7 +25,15 @@ mongoose
     console.error("MongoDB connection error:", error);
     process.exit(1); // Exit process if unable to connect to MongoDB
   });
-
+async function pingWebsite() {
+  try {
+    const response = await axios.get(url);
+    console.log(`Status Code: ${response.status}`);
+    //console.log(`Body: ${response.data}`);
+  } catch (error) {
+    console.log(`Got error: ${error}`);
+  }
+}
 // Serve static files from the 'public' directory
 app.use(express.static(path.join(__dirname, "public")));
 app.use(bodyParser.json()); // Middleware to parse JSON bodies
@@ -101,7 +110,6 @@ app.get("/previous-submissions", async (req, res) => {
       .json({ message: "Failed to fetch previous submissions", error });
   }
 });
-
 
 // Route to fetch the event number
 app.get("/getevntnmr", async (req, res) => {
