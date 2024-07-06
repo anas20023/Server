@@ -8,7 +8,7 @@ require("dotenv").config();
 const axios = require("axios");
 const WebSocket = require(`ws`);
 const PORT = process.env.PORT || 5000;
-const wss = new WebSocket.Server({ port: PORT + 1 });
+const wss = new WebSocket.Server({ port: parseInt(PORT) + 1 });
 // Load environment variables
 const url = process.env.SITE;
 
