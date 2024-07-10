@@ -99,7 +99,17 @@ app.get("/submission-numbers", async (req, res) => {
       .json({ message: "Failed to fetch submission numbers", error });
   }
 });
-
+app.get("/winnerlist", async (req, res) => {
+  try {
+    const numbers = await Guess.find().select("number eventNumber username");
+    res.json(numbers);
+  } catch (error) {
+    console.error("Error fetching submission numbers:", error);
+    res
+      .status(500)
+      .json({ message: "Failed to fetch submission numbers", error });
+  }
+});
 // Route to fetch previous submissions
 app.get("/previous-submissions", async (req, res) => {
   try {
@@ -172,6 +182,52 @@ app.get("/event/:eventID/submissions", async (req, res) => {
     res.status(500).json({ error: "Failed to fetch submissions for event" });
   }
 });
+// route for finding total winners and prize
+app.get("/:eventID/winners", async (req, res) => {
+  const { eventID } = req.params;
+  //console.log(eventID);
+  try {
+    const submissions = await WinnerHistory.find({ evnt: eventID });
+    if (!submissions) {
+      return res
+        .status(404)
+        .json({ error: "No submissions found for this event ID" });
+    }
+    res.json(submissions);
+  } catch (error) {
+    console.error("Error fetching submissions for event:", error);
+    res.status(500).json({ error: "Failed to fetch submissions for event" });
+  }
+});
+app.get("/event/:eventID/submissions/:winningNumber", async (req, res) => {
+  const { eventID, winningNumber } = req.params;
+  try {
+    const winningNumberInt = parseInt(winningNumber, 10);
+    const lastDigit = winningNumberInt % 10;
+    const lastTwoDigits = winningNumberInt % 100;
+
+    const submissions = await WinnerHistory.find({
+      evnt: eventID,
+      $or: [
+        { number: winningNumberInt },
+        { number: lastDigit },
+        { number: lastTwoDigits },
+      ],
+    });
+
+    if (!submissions || submissions.length === 0) {
+      return res.status(404).json({
+        error: "No submissions found for this event ID and winning number",
+      });
+    }
+
+    res.json(submissions);
+    //console.log(submissions);
+  } catch (error) {
+    console.error("Error fetching submissions for event:", error);
+    res.status(500).json({ error: "Failed to fetch submissions for event" });
+  }
+});
 
 // Route to fetch remaining time
 app.get("/api/remaining-time", async (req, res) => {
@@ -214,6 +270,19 @@ app.post("/api/reset-timer", async (req, res) => {
 app.get("/getevntnmr", async (req, res) => {
   try {
     const lastEvent = await Eventnm.findOne().sort({ nmbr: -1 });
+    if (!lastEvent) {
+      return res.status(404).json({ error: "No events found" });
+    }
+    res.json(lastEvent);
+  } catch (error) {
+    console.error("Error fetching last event number:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+// get last lucky num
+app.get("/lucky", async (req, res) => {
+  try {
+    const lastEvent = await Eventnm.find();
     if (!lastEvent) {
       return res.status(404).json({ error: "No events found" });
     }

@@ -1,29 +1,16 @@
 document.addEventListener("DOMContentLoaded", async () => {
   try {
-    const response = await fetch("/winner-history");
-    if (!response.ok) {
-      throw new Error(`HTTP error! Status: ${response.status}`);
-    }
-
-    const winnerHistories = await response.json();
+    let rsltobj = await getluck();
     const winnerHistoriesContainer = document.getElementById(
       "winnerHistoriesContainer"
     );
     winnerHistoriesContainer.innerHTML = "";
 
-    winnerHistories.forEach((history) => {
-      let usrnm = history.users;
-      let newUsrnm;
-      let winnerprize = 0;
-      if (usrnm !== "no winner") {
-        newUsrnm = "1";
-        winnerprize = 100;
-      } else {
-        newUsrnm = "0";
-      }
-      let datestr = history.date;
-      let newDatestr = datestr.substring(0, 10);
-
+    for (const rslt of rsltobj) {
+      //console.log(rslt);
+      let eventID = rslt.nmbr;
+      let luckyNumber = rslt.luck;
+      let { tprize, twinners } = await calculatePrizes(eventID);
       const historyItem = document.createElement("div");
       historyItem.classList.add(
         "history-item",
@@ -34,43 +21,75 @@ document.addEventListener("DOMContentLoaded", async () => {
         "border-l-4",
         "border-blue-500"
       );
+
       historyItem.innerHTML = `
         <div class="flex flex-row text-lg justify-between cursor-pointer items-center font-medium text-gray-700 hover:text-gray-900">
           <div class="flex flex-col justify-evenly">
-            <p>Date: ${newDatestr}</p>
-            <p class="text-sm">Event ID: ${history.evnt}</p>
+            <p>Date: ${new Date().toISOString().substring(0, 10)}</p>
+            <p class="text-sm">Event ID: ${eventID}</p>
           </div>
           <div class="flex flex-col justify-evenly items-end text-2xl text-blue-600 lg:text-4xl font-bold">
-            ${history.number}
+            ${luckyNumber}
             <span class="text-xs lg:text-sm text-gray-800 font-medium">Winning Number</span>
           </div>
         </div>
         <div class="flex justify-between mt-2 text-blue-600">
-          <span>Payout Prize: ${winnerprize}</span>
-          <span>Winner(s): ${newUsrnm}</span>
+          <span class="font-medium">Payout Prize: ${tprize}$</span>
+          <span>Winner(s): ${twinners}</span>
         </div>
       `;
 
+      winnerHistoriesContainer.appendChild(historyItem);
+
       historyItem.addEventListener("click", () => {
-        if (newUsrnm === "0") {
-          newUsrnm = "no winner";
-        } else {
-          newUsrnm = usrnm;
-        }
         const urlParams = new URLSearchParams({
-          date: newDatestr,
-          number: history.number,
-          winner: newUsrnm,
-          prize: winnerprize,
-          eventID: history.evnt,
+          date: new Date().toISOString().substring(0, 10),
+          number: luckyNumber,
+          eventID: eventID,
         }).toString();
 
         window.location.href = `event-detail.html?${urlParams}`;
       });
-
-      winnerHistoriesContainer.appendChild(historyItem);
-    });
+    }
   } catch (error) {
     console.error("Error fetching winner histories:", error);
   }
 });
+
+const winnerlist = async (eventid) => {
+  try {
+    const response = await fetch(`/${eventid}/winners`);
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.log("Error fetching winner list:", error);
+  }
+};
+
+const getluck = async () => {
+  try {
+    const response = await fetch("/lucky");
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+async function calculatePrizes(eventid) {
+  try {
+    const result = await winnerlist(eventid);
+    let tprize = 0;
+    let twinners = 0;
+    result.forEach((dt) => {
+      if (dt.prize !== 0) {
+        tprize += dt.prize;
+        twinners++;
+      }
+    });
+    return { tprize, twinners };
+  } catch (error) {
+    console.error("Error:", error);
+    return { tprize: 0, twinners: 0 };
+  }
+}

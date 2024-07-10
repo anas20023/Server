@@ -6,6 +6,7 @@ const winnerHistorySchema = new mongoose.Schema({
   number: { type: Number, required: true },
   users: { type: String, required: true },
   evnt: { type: Number, required: true },
+  prize: { type: Number, required: true },
 });
 
 // Create the model from the schema
