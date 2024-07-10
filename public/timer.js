@@ -105,7 +105,7 @@ document.addEventListener("DOMContentLoaded", function () {
         const noWinnerEntry = {
           date: new Date().toISOString(), // Add the current date in ISO format
           number: luckyNumber,
-          users: "no winner", // Ensure this field is populated
+          users: `"no winner"`, // Ensure this field is populated
           evnt: evtnm,
           prize: 0,
         };
