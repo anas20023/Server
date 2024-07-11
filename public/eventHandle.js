@@ -70,9 +70,13 @@ document.addEventListener("DOMContentLoaded", async () => {
   <div class="text-2xl font-bold">${eventDate}</div>
   <div class="lg:block text-sm text-sky-600">Date</div>
 `;
+  document.getElementById("lnm").innerHTML = `
+  <div class="text-2xl font-bold ">${winningNumber}</div>
+  <div class="lg:block text-sm text-sky-600">Winning Number</div>
+`;
 
   document.getElementById("event-id").innerHTML = `
-<div class="text-4xl font-bold">${eventID}</div>
+<div class="text-4xl font-bold text-slate-800">${eventID}</div>
 <div class="lg:block text-sm">Event ID</div>
 `;
   // console.log(wresponse);
@@ -82,34 +86,34 @@ document.addEventListener("DOMContentLoaded", async () => {
       <div class="text-2xl font-bold">No Winners Found for this Event!</div>`;
   } else {
     const container = document.getElementById("wincontain");
-    container.innerHTML = ""; // Clear the container first
+    //container.innerHTML = ""; // Clear the container first
     wresponse.forEach((winner) => {
       // Create a new div element for the winner
-      const winnerDiv = document.createElement("div");
-      winnerDiv.className =
-        "flex flex-row mb-2 justify-between items-center bg-white border-2 rounded py-4 px-4 w-full";
+      if (winner.users === "no winner") {
+        document.getElementById("wincontain").innerHTML = `
+        <div class="text-xl font-bold">No withdraw</div
+        `;
+      } else {
+        const winnerDiv = document.createElement("div");
+        winnerDiv.className =
+          "flex flex-row mb-2 justify-between items-center bg-white border-2 rounded py-2 px-2 w-full";
 
-      // Create the number element
-      const numberP = document.createElement("p");
-      numberP.className = "text-center text-md font-bold";
-      numberP.innerHTML = `${winner.users} <br> <span class="text-xs text-gray-400 inline-block mt-4">Username</span>`;
+        // Create the number element
+        const numberP = document.createElement("p");
+        numberP.className = "text-center text-md font-bold";
+        numberP.innerHTML = `${winner.users} `;
 
-      // Create the username element
-      const usernameP = document.createElement("p");
-      usernameP.className = "text-2xl text-sky-600 font-bold text-center";
-      usernameP.innerHTML = `${winner.number} <br> <span class="text-xs text-gray-400">Winning Number</span>`;
+        // Create the prize element
+        const prizeP = document.createElement("p");
+        prizeP.className = "text-xl  font-bold text-center";
+        prizeP.innerHTML = `${winner.prize} $`;
 
-      // Create the prize element
-      const prizeP = document.createElement("p");
-      prizeP.className = "text-xl  font-bold text-center";
-      prizeP.innerHTML = `${winner.prize} $ <br> <span class="text-xs text-gray-400 inline-block mt-4">Prize</span>`;
-
-      // Append the elements to the winnerDiv
-      winnerDiv.appendChild(numberP);
-      winnerDiv.appendChild(usernameP);
-      winnerDiv.appendChild(prizeP);
-      // Append the winnerDiv to the container
-      container.appendChild(winnerDiv);
+        // Append the elements to the winnerDiv
+        winnerDiv.appendChild(numberP);
+        winnerDiv.appendChild(prizeP);
+        // Append the winnerDiv to the container
+        container.appendChild(winnerDiv);
+      }
     });
   }
 });

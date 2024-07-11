@@ -62,6 +62,11 @@ document.addEventListener("DOMContentLoaded", function () {
         throw new Error("Network response was not ok");
       }
       const submissions = await response.json();
+  
+      console.log("Lucky Number:", luckyNumber);
+      console.log("Last Digit:", luckyNumber % 10);
+      console.log("Last Two Digits:", luckyNumber % 100);
+  
       const matchingSubmissions = submissions.filter(
         (submission) =>
           (submission.number === luckyNumber ||
@@ -69,7 +74,9 @@ document.addEventListener("DOMContentLoaded", function () {
             submission.number === luckyNumber % 100) &&
           submission.eventNumber === evtnm
       );
-
+  
+      console.log("Matching Submissions:", matchingSubmissions);
+  
       if (matchingSubmissions.length > 0) {
         for (const winner of matchingSubmissions) {
           let currprize;
@@ -80,7 +87,7 @@ document.addEventListener("DOMContentLoaded", function () {
           } else if (winner.number === luckyNumber % 100) {
             currprize = 5;
           }
-
+  
           const addWinnerResponse = await fetch("/add-winner", {
             method: "POST",
             headers: {
@@ -98,14 +105,14 @@ document.addEventListener("DOMContentLoaded", function () {
             throw new Error("Network response was not ok");
           }
           const data = await addWinnerResponse.json();
-          console.log("Winner added successfully:");
+          console.log("Winner added successfully:", data);
           window.location.reload();
         }
       } else {
         const noWinnerEntry = {
           date: new Date().toISOString(), // Add the current date in ISO format
           number: luckyNumber,
-          users: `"no winner"`, // Ensure this field is populated
+          users: "no winner", // Ensure this field is populated
           evnt: evtnm,
           prize: 0,
         };
@@ -127,7 +134,7 @@ document.addEventListener("DOMContentLoaded", function () {
       console.error("Error:", error);
     }
   }
-
+  
   // Fetch event number and start the countdown
   async function eventnmbr() {
     try {

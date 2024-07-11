@@ -259,7 +259,8 @@ app.post("/api/reset-timer", async (req, res) => {
     await lastEvent.save();
     res.json({
       success: true,
-      luckyNum: Math.floor(100 + Math.random() * 900),
+      //luckyNum: Math.floor(100 + Math.random() * 900),
+      luckyNum: 456,
     }); // Return a new lucky number
     pingWebsite();
   } catch (error) {
