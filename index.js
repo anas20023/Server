@@ -303,15 +303,28 @@ function broadcastReload() {
 }
 
 function checkAndReload() {
-  if (wss.clients.size === 0) { // wss.clients is a Set, so we use size to get the number of clients
+  if (wss.clients.size === 0) {
+    // wss.clients is a Set, so we use size to get the number of clients
     console.log("No clients connected. Reloading after 5 minutes...");
     setTimeout(() => {
       console.log("Reloading now...");
       broadcastReload();
-    }, 300000/2); // 300000 milliseconds = 5 minutes
+    }, 300000 / 2); // 300000 milliseconds = 5 minutes
   }
 }
+// Route to check if a guess already exists
+app.post("/check-existing", async (req, res) => {
+  try {
+    const { username, brand, eventNumber } = req.body;
 
+    const guess = await Guess.findOne({ username, brand, eventNumber });
+    //console.log("Query result:", guess);
+    res.json({ exists: !!guess });
+  } catch (err) {
+    console.error("Error querying database:", err);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });

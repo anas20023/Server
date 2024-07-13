@@ -27,24 +27,59 @@ document.addEventListener("DOMContentLoaded", function () {
 
       const formData = new FormData(this);
       const data = Object.fromEntries(formData);
-      // i want to add event number from top counting
+
+      // Add event number from top counting
       const temp = evnt_nmbr + 1;
       data["eventNumber"] = temp;
-      //console.log(temp);
-      fetch("/submit-guess", {
+
+      // Check for existing entries
+      fetch("/check-existing", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(data),
+        body: JSON.stringify({
+          username: data.username,
+          brand: data.brand,
+          eventNumber: data.eventNumber,
+        }),
       })
         .then((response) => response.json())
-        .then((data) => {
-          alert("Success: " + data.message);
-          document.getElementById("formModal").classList.add("hidden");
-          this.reset();
-          // i want to refresh this page
-          fetchSubmissionNumbers();
+        .then((checkData) => {
+          if (checkData.exists) {
+            const prompt_mdl = document.getElementById("popup-modal");
+            const hdmodal = document.getElementById("hideppmodal");
+            prompt_mdl.classList.remove("hidden");
+            prompt_mdl.classList.add("flex");
+            if (hdmodal && prompt_mdl) {
+              hdmodal.addEventListener("click", function () {
+                prompt_mdl.classList.add("hidden");
+                prompt_mdl.classList.remove("flex");
+                document.getElementById("formModal").classList.add("hidden");
+                document.getElementById("guess-form").reset();
+              });
+            }
+          } else {
+            // Proceed with form submission if no entry exists
+            fetch("/submit-guess", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify(data),
+            })
+              .then((response) => response.json())
+              .then((data) => {
+                alert("Success: " + data.message);
+                document.getElementById("formModal").classList.add("hidden");
+                this.reset();
+                // Refresh the page
+                fetchSubmissionNumbers();
+              })
+              .catch((error) => {
+                console.error("Error:", error);
+              });
+          }
         })
         .catch((error) => {
           console.error("Error:", error);
