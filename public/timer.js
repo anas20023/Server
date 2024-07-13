@@ -5,7 +5,7 @@ const lckynum = document.getElementById("lucky-number");
 
 document.addEventListener("DOMContentLoaded", function () {
   eventnmbr();
-  startCountdown();
+  //startCountdown();
   // Function to start the countdown
   function startCountdown() {
     const intervalId = setInterval(async () => {

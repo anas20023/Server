@@ -259,8 +259,8 @@ app.post("/api/reset-timer", async (req, res) => {
     await lastEvent.save();
     res.json({
       success: true,
-      //luckyNum: Math.floor(100 + Math.random() * 900),
-      luckyNum: 456,
+      luckyNum: Math.floor(100 + Math.random() * 900),
+      //luckyNum: 456,
     }); // Return a new lucky number
     pingWebsite();
   } catch (error) {
@@ -301,10 +301,21 @@ function broadcastReload() {
     }
   });
 }
+
+function checkAndReload() {
+  if (wss.clients.size === 0) { // wss.clients is a Set, so we use size to get the number of clients
+    console.log("No clients connected. Reloading after 5 minutes...");
+    setTimeout(() => {
+      console.log("Reloading now...");
+      broadcastReload();
+    }, 300000/2); // 300000 milliseconds = 5 minutes
+  }
+}
+
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
 wss.on("connection", (ws) => {
   console.log("Client connected");
 });
-setInterval(broadcastReload, 5 * 60 * 1000);
+setInterval(checkAndReload, 40000);

@@ -1,6 +1,12 @@
 document.addEventListener("DOMContentLoaded", async () => {
   try {
     let rsltobj = await getluck();
+    // i want to sort the array
+    //console.log(rsltobj);
+    let sorted = rsltobj.sort((a, b) => {
+      if (a.nmbr > b.nmbr) return -1;
+    });
+    console.log(sorted);
     const winnerHistoriesContainer = document.getElementById(
       "winnerHistoriesContainer"
     );
