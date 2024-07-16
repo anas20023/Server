@@ -210,8 +210,8 @@ app.get("/event/:eventID/submissions/:winningNumber", async (req, res) => {
       evnt: eventID,
       $or: [
         { number: winningNumberInt },
-        { number: lastDigit },
-        { number: lastTwoDigits },
+        { number: { $mod: [10, lastDigit] } },
+        { number: { $mod: [100, lastTwoDigits] } },
       ],
     });
 
@@ -228,6 +228,7 @@ app.get("/event/:eventID/submissions/:winningNumber", async (req, res) => {
     res.status(500).json({ error: "Failed to fetch submissions for event" });
   }
 });
+
 
 // Route to fetch remaining time
 app.get("/api/remaining-time", async (req, res) => {
@@ -259,8 +260,8 @@ app.post("/api/reset-timer", async (req, res) => {
     await lastEvent.save();
     res.json({
       success: true,
-      luckyNum: Math.floor(100 + Math.random() * 900),
-      //luckyNum: 456,
+      //luckyNum: Math.floor(100 + Math.random() * 900),
+      luckyNum: 555,
     }); // Return a new lucky number
     pingWebsite();
   } catch (error) {

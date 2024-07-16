@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     let sorted = rsltobj.sort((a, b) => {
       if (a.nmbr > b.nmbr) return -1;
     });
-    console.log(sorted);
+    //console.log(sorted);
     const winnerHistoriesContainer = document.getElementById(
       "winnerHistoriesContainer"
     );

@@ -62,32 +62,38 @@ document.addEventListener("DOMContentLoaded", function () {
         throw new Error("Network response was not ok");
       }
       const submissions = await response.json();
-  
+
       console.log("Lucky Number:", luckyNumber);
       console.log("Last Digit:", luckyNumber % 10);
       console.log("Last Two Digits:", luckyNumber % 100);
-  
-      const matchingSubmissions = submissions.filter(
-        (submission) =>
+
+      const matchingSubmissions = submissions.filter((submission) => {
+        const lastTwoDigitsSubmission = submission.number % 100;
+        const lastTwoDigitsLucky = luckyNumber % 100;
+        const lastDigitSubmission = submission.number % 10;
+        const lastDigitLucky = luckyNumber % 10;
+
+        return (
           (submission.number === luckyNumber ||
-            submission.number === luckyNumber % 10 ||
-            submission.number === luckyNumber % 100) &&
+            lastDigitSubmission === lastDigitLucky ||
+            lastTwoDigitsSubmission === lastTwoDigitsLucky) &&
           submission.eventNumber === evtnm
-      );
-  
+        );
+      });
+
       console.log("Matching Submissions:", matchingSubmissions);
-  
+
       if (matchingSubmissions.length > 0) {
         for (const winner of matchingSubmissions) {
-          let currprize;
+          let currprize = 0;
+
           if (winner.number === luckyNumber) {
             currprize = 50;
-          } else if (winner.number === luckyNumber % 10) {
-            currprize = 1;
-          } else if (winner.number === luckyNumber % 100) {
+          } else if (winner.number % 100 === luckyNumber % 100) {
             currprize = 5;
+          } else if (winner.number % 10 === luckyNumber % 10) {
+            currprize = 1;
           }
-  
           const addWinnerResponse = await fetch("/add-winner", {
             method: "POST",
             headers: {
@@ -101,13 +107,15 @@ document.addEventListener("DOMContentLoaded", function () {
               prize: currprize,
             }),
           });
+
           if (!addWinnerResponse.ok) {
             throw new Error("Network response was not ok");
           }
+
           const data = await addWinnerResponse.json();
           console.log("Winner added successfully:", data);
-          window.location.reload();
         }
+        window.location.reload();
       } else {
         const noWinnerEntry = {
           date: new Date().toISOString(), // Add the current date in ISO format
@@ -116,6 +124,7 @@ document.addEventListener("DOMContentLoaded", function () {
           evnt: evtnm,
           prize: 0,
         };
+
         const addNoWinnerResponse = await fetch("/add-winner", {
           method: "POST",
           headers: {
@@ -123,9 +132,11 @@ document.addEventListener("DOMContentLoaded", function () {
           },
           body: JSON.stringify(noWinnerEntry),
         });
+
         if (!addNoWinnerResponse.ok) {
           throw new Error("Network response was not ok");
         }
+
         const data = await addNoWinnerResponse.json();
         console.log("No winner entry added:", data);
         window.location.reload();
@@ -134,7 +145,7 @@ document.addEventListener("DOMContentLoaded", function () {
       console.error("Error:", error);
     }
   }
-  
+
   // Fetch event number and start the countdown
   async function eventnmbr() {
     try {
